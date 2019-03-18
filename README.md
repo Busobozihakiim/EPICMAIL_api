@@ -55,7 +55,7 @@ Use the api endpoints with an app like [Postman](https://www.getpostman.com/apps
 ## Hosted on Heroku
 The online api can be found here
 
-https://epicmail007.herokuapp.com/
+https://epicmail007.herokuapp.com/api/v1/
 
 Acceptable post format When:
 - Signing up for an account
