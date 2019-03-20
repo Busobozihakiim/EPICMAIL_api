@@ -14,7 +14,7 @@ class UserHelpers:
         if len(signup_data) < 4:
             return jsonify({
                 'status': 400,
-                'message': 'Your missing a field'
+                'error': 'Your missing a field'
                 }), 400
 
         if not validation.validate_email(signup_data['email']):
@@ -30,7 +30,7 @@ class UserHelpers:
                 }), 400
 
         if not validation.validate_names(
-                signup_data['firstName'], signup_data['firstName']):
+                signup_data['firstName'], signup_data['lastName']):
             return jsonify({
                 'status': 400,
                 'error': 'Names must be strings'

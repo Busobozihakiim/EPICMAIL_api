@@ -17,7 +17,7 @@ class Validate:
     
     def validate_names(self, fname, lname):
         """Validates the first and lastnames"""
-        if not re.match(r"^[a-zA-Z]+$", fname) and \
-           not re.match(r"^[a-zA-Z]+$", lname):
-           return False
-        return True
+        is_string = re.compile(r"^[a-zA-Z]+$")
+        if is_string.match(fname) and is_string.match(lname):
+            return True
+        return False
