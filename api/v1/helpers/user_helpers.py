@@ -1,5 +1,6 @@
 """Creates User And Returns token"""
 from flask import jsonify
+from flask_jwt_extended import create_access_token
 from api.v1.validators.input_validator import Validate
 from api.v1.models.user_model import Users
 
@@ -35,11 +36,11 @@ class UserHelpers:
                 'error': 'Names must be strings'
                 }), 400
 
-        signup.create_user(signup_data)
-        
+        userid = signup.create_user(signup_data)["id"]
+        print(userid)
         return jsonify({
             'status': 201,
             'data': [{
-                'token': '45erkjherht45495783'
+                'token': create_access_token(identity=userid)
                 }]
             }), 201
