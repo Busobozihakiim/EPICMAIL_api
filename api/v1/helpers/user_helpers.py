@@ -35,6 +35,8 @@ class UserHelpers:
                 'error': 'Names must be strings'
                 }), 400
 
+        signup.create_user(signup_data)
+        
         return jsonify({
             'status': 201,
             'data': [{

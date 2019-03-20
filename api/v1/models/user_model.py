@@ -1,6 +1,6 @@
 """USER ENTITY """
 import uuid
-
+from werkzeug.security import generate_password_hash
 USERS = []
 
 
@@ -15,7 +15,7 @@ class Users:
             'email': args['email'],
             'firstName': args['firstName'],
             'lastName': args['lastName'],
-            'password': args['password'],
+            'password': generate_password_hash(args['password'], 'pbkdf2:sha256', 9),
         }
         self.users.append(one_user)
         return one_user
