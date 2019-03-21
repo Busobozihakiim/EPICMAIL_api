@@ -39,7 +39,7 @@ missing_login_field = {
 }
 
 login_data = {
-    "email": "testing@ngalabi.com",
+    "email": "qw@epictester.com",
     "password": "ferdertf"
 }
 
