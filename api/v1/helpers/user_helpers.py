@@ -36,6 +36,12 @@ class UserHelpers:
                 'error': 'Names must be strings'
                 }), 400
 
+        if signup.check_email_exists(signup_data['email']):
+            return jsonify({
+                'status': 400,
+                'error': 'Email already exists'
+                }), 400
+
         userid = signup.create_user(signup_data)["id"]
         print(userid)
         return jsonify({

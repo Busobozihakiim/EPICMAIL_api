@@ -13,7 +13,6 @@ class TestUserRoutes(BaseTest):
         response = self.app.post('/api/v1/signup',
                                  data=json.dumps(signup_data),
                                  content_type='application/json')
-        print(response.data)
         self.assertTrue(response.status_code, 201)
     
     def test_signup_missing_field(self):
@@ -22,7 +21,6 @@ class TestUserRoutes(BaseTest):
         response = self.app.post('/api/v1/signup',
                                  data=json.dumps(missing_required_data),
                                  content_type='application/json')
-        print(response.data)
         self.assertIn(response.get_json()["error"], "Your missing a field")
         self.assertEqual(response.status_code, 400)
     
@@ -31,7 +29,6 @@ class TestUserRoutes(BaseTest):
         response = self.app.post('/api/v1/signup',
                                  data=json.dumps(bad_email),
                                  content_type='application/json')
-        print(response.data)
         self.assertIn(response.get_json()["error"], "Invalid Email")                         
         self.assertEqual(response.status_code, 400)
     
@@ -40,7 +37,6 @@ class TestUserRoutes(BaseTest):
         response = self.app.post('/api/v1/signup',
                                  data=json.dumps(short_password),
                                  content_type='application/json')
-        print(response.data)
         self.assertIn(response.get_json()["error"], "Password must be more than 8 characters")
         self.assertEqual(response.status_code, 400)
     
@@ -49,8 +45,7 @@ class TestUserRoutes(BaseTest):
         response = self.app.post('/api/v1/signup',
                                  data=json.dumps(bad_names),
                                  content_type='application/json')
-        print(response.data)
         self.assertIn(response.get_json()["error"], "Names must be strings")
         self.assertEqual(response.status_code, 400)
-    
+
     
