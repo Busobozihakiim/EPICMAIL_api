@@ -3,7 +3,7 @@ python:
   - "3.6"
 branches:
   only:
-  - develop
+  - ft-signup-#164691440
 install:
   - pip install -r requirements.txt
 script:

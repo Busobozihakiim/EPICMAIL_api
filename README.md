@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.com/Busobozihakiim/EPICMAIL_api.svg?branch=develop)](https://travis-ci.com/Busobozihakiim/EPICMAIL_api)
-[![Coverage Status](https://coveralls.io/repos/github/Busobozihakiim/EPICMAIL_api/badge.svg?branch=master)](https://coveralls.io/github/Busobozihakiim/EPICMAIL_api?branch=develop)
+[![Build Status](https://travis-ci.com/Busobozihakiim/EPICMAIL_api.svg?branch=ft-signup-#164691440)](https://travis-ci.com/Busobozihakiim/EPICMAIL_api)
+[![Coverage Status](https://coveralls.io/repos/github/Busobozihakiim/EPICMAIL_api/badge.svg?branch=ft-signup-#164691440)](https://coveralls.io/github/Busobozihakiim/EPICMAIL_api?branch=ft-signup-#164691440)
 [![Maintainability](https://api.codeclimate.com/v1/badges/0ff59272bb422a064fa1/maintainability)](https://codeclimate.com/github/Busobozihakiim/EPICMAIL_api/maintainability)
 # iReporter
 A web app that helps people exchange messages/information over the internet.
