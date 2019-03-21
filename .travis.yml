@@ -3,7 +3,7 @@ python:
   - "3.6"
 branches:
   only:
-  - ft-login_user-#164691327
+  - ft-view_all_emails-#164691565
 install:
   - pip install -r requirements.txt
 script:
