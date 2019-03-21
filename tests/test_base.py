@@ -1,13 +1,13 @@
 import json
 import unittest
 from api import create_app
-from flask_jwt_extended import JWTManager
+#from flask_jwt_extended import JWTManager
 from .mock_data import signup_data
 
 class BaseTest(unittest.TestCase):
     def setUp(self):
         app = create_app('testing')
-        JWTManager(app)
+        #JWTManager(app)
         self.app = app.test_client()
 
     def tearDown(self):
