@@ -1,6 +1,6 @@
 """Creates User And Returns token"""
 from flask import jsonify
-from flask_jwt_extended import create_access_token
+#from flask_jwt_extended import create_access_token
 from api.v1.validators.input_validator import Validate
 from api.v1.models.user_model import Users
 
@@ -46,7 +46,26 @@ class UserHelpers:
         print(userid)
         return jsonify({
             'status': 201,
-            'data': [{
-                'token': create_access_token(identity=userid)
-                }]
+            'message': 'account created'
             }), 201
+
+    def login_user(self, login_data):
+        """Checks if creds are valid and gives a user an access token"""
+        if len(login_data) < 2:
+            return jsonify({
+                'status': 400,
+                'error': 'Your missing an email or password'
+                }), 400
+
+        access_account = signup.check_matching_password(
+            login_data['email'], login_data['password'])
+
+        if not access_account:
+            return jsonify({
+                'status': 400,
+                'error': 'Incorrect credentials'
+                }), 400
+        return jsonify({
+            'status': 200,
+            'message': 'logged in succesfully'
+        }), 200

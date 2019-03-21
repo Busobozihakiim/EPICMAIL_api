@@ -48,4 +48,30 @@ class TestUserRoutes(BaseTest):
         self.assertIn(response.get_json()["error"], "Names must be strings")
         self.assertEqual(response.status_code, 400)
 
+    def test_login(self):
+        """test login"""
+        response = self.app.post('/api/v1/signup',
+                                 data=json.dumps(signup_data),
+                                 content_type='application/json')
+        response = self.app.post('/api/v1/login',
+                                 data=json.dumps(login_data),
+                                 content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+    def test_login_missing_fields(self):
+        """test if input is less"""
+        response = self.app.post('/api/v1/login',
+                                 data=json.dumps(missing_login_field),
+                                 content_type='application/json')
+        self.assertIn(response.get_json()["error"], "Your missing an email or password")
+        self.assertEqual(response.status_code, 400)
+
+    def test_bad_credentials(self):
+        """test credentials are wrong"""
+        response = self.app.post('/api/v1/login',
+                                 data=json.dumps(bad_creds),
+                                 content_type='application/json')
+        self.assertIn(response.get_json()["error"], "Incorrect credentials")
+        self.assertEqual(response.status_code, 400)
+
     

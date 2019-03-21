@@ -1,6 +1,6 @@
 """USER ENTITY """
 import uuid
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 USERS = []
 
 
@@ -24,5 +24,13 @@ class Users:
         """checks if an email is already used"""
         for a_user in self.users:
             if a_user['email'] == email:
+                return True
+        return False
+
+    def check_matching_password(self, email, password):
+        """check if password and email exist"""
+        for a_user in self.users:
+            if a_user['email'] == email and \
+               check_password_hash(a_user['password'], password):
                 return True
         return False
