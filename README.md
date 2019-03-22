@@ -79,6 +79,7 @@ Acceptable post format When:
 ```
 {
     'To' : string,
+    'from' : string,
     'subject' : String ,
     'message' : String ,
 }
