@@ -42,11 +42,10 @@ class UserHelpers:
                 'error': 'Email already exists'
                 }), 400
 
-        userid = signup.create_user(signup_data)["id"]
-        print(userid)
+        signup.create_user(signup_data)
         return jsonify({
             'status': 201,
-            'message': 'account created'
+            'data': 'account created'
             }), 201
 
     def login_user(self, login_data):

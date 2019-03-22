@@ -1,12 +1,12 @@
 """USER ENTITY """
 import uuid
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 
 class Users:
-    USERS = []
+    USER = []
 
-    def __init__(self):
-        self.users = Users.USERS
+    def __init__(self):        
+        self.users = Users.USER
 
     def create_user(self, args):
         """ Creates a user"""
