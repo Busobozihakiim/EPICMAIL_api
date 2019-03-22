@@ -20,4 +20,4 @@ class Validate:
         is_string = re.compile(r"^[a-zA-Z]+$")
         if is_string.match(fname) and is_string.match(lname):
             return True
-        return False
+        return False        

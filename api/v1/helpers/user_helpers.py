@@ -47,3 +47,24 @@ class UserHelpers:
             'status': 201,
             'data': 'account created'
             }), 201
+
+    def login_user(self, login_data):
+        """Checks if creds are valid and gives a user an access token"""
+        if len(login_data) < 2:
+            return jsonify({
+                'status': 400,
+                'error': 'Your missing an email or password'
+                }), 400
+
+        access_account = signup.check_matching_password(
+            login_data['email'], login_data['password'])
+
+        if not access_account:
+            return jsonify({
+                'status': 400,
+                'error': 'Incorrect credentials'
+                }), 400
+        return jsonify({
+            'status': 200,
+            'message': 'logged in succesfully'
+        }), 200

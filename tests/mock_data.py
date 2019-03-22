@@ -33,3 +33,17 @@ bad_names = {
     "lastName": "String",
     "password": "ferdertf"
 }
+
+missing_login_field = {
+    "email": "testing@ngalabi.com"
+}
+
+login_data = {
+    "email": "qw@epictester.com",
+    "password": "ferdertf"
+}
+
+bad_creds = {
+    "email": "testing@ngalabi.com",
+    "password": "ferdertf"
+}
