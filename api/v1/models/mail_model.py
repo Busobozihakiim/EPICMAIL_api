@@ -1,10 +1,10 @@
 """MESSAGES ENTITY"""
 
-MESSAGES = []
-
 class Messages:
+    MESSAGES = []
+
     def __init__(self):
-        self.messages = MESSAGES
+        self.messages = Messages.MESSAGES
 
     def check_storage(self):
         if self.messages == []:

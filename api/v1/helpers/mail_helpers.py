@@ -8,12 +8,14 @@ message = Messages()
 
 class MessageHelpers:
     def get_messages(self):
+        print(message.check_storage())
         if message.check_storage():
             return jsonify({
                 'status':200,
                 'message':'You dont have messages currently'
             }), 200
         read_all = message.fetch_all_mail()
+        print(read_all)
         return jsonify({
             'status':200,
             'data': read_all
