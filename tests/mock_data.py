@@ -47,3 +47,37 @@ bad_creds = {
     "email": "testing@ngalabi.com",
     "password": "ferdertf"
 }
+
+email = {
+    "subject" : "d",
+	"message" : "String" ,
+	"from" : "qw@epctester.com" ,
+	"to" : "qw@epictester.com"
+}
+
+message_urself = {
+    "subject" : "d",
+	"message" : "String" ,
+	"from" : "qw@epictester.com" ,
+	"to" : "qw@epictester.com"
+}
+
+email_invalid = {
+    "subject" : "d",
+	"message" : "String" ,
+	"from" : "qwepictester.com" ,
+	"to" : "qw@epictester.com"
+}
+
+email_less = {
+	"message" : "String" ,
+	"from" : "qw@epctester.com" ,
+	"to" : "qw@epictester.com"
+}
+
+empty_input = {
+    "subject" : "",
+	"message" : "String" ,
+	"from" : "qw@epctester.com" ,
+	"to" : "qw@epictester.com"
+}

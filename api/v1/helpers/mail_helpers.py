@@ -41,12 +41,13 @@ class MessageHelpers:
                 'error': 'You can\'t send yourself an email'
                 }), 400
 
-        if len(email_input['subject']) == 0 or \
-           len(email_input['message']) == 0:
-           return jsonify({
-                'status': 400,
-                'error': 'please enter a subject and message'
-                }), 400
+        for key, value in email_input.items():
+            if value in ("", " "):
+                return jsonify({"status":400,
+                                "error":"Missing '{}' in your input".format(key)
+                                }), 400
+
+
         send = message.create_email(email_input)
         return jsonify({
             'status': 201,
