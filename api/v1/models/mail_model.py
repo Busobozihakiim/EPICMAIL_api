@@ -1,10 +1,11 @@
 """MESSAGES ENTITY"""
 from datetime import datetime
-MESSAGES = []
 
 class Messages:
+    MESSAGES = []
+
     def __init__(self):
-        self.messages = MESSAGES
+        self.messages = Messages.MESSAGES
     
     def create_email(self, args):
         """Method to send an email"""
