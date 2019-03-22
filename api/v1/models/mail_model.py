@@ -37,3 +37,12 @@ class Messages:
         if sent:
             return sent
         return False
+
+    def fetch_one_mail(self, this_id):
+        email = []
+        for this_email in self.messages:
+            if this_email['id'] == this_id:
+                email.append(this_email)
+        if not email:
+            return False
+        return email        
