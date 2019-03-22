@@ -18,3 +18,37 @@ class MessageHelpers:
             'status':200,
             'data': read_all
             }), 200
+
+    def send_message(self, email_input):
+        if 4 > len(email_input) < 4:
+            return jsonify({
+                'status': 400,
+                'error': 'Must enter four fields'
+                }), 400
+        
+        to = validation.validate_email(email_input['to']) 
+        sender = validation.validate_email(email_input['from'])
+        
+        if to == False or sender == False:
+            return jsonify({
+                'status': 400,
+                'error': 'An email is Invalid'
+                }), 400
+        
+        if email_input['from'] == email_input['to']:
+           return jsonify({
+                'status': 400,
+                'error': 'You can\'t send yourself an email'
+                }), 400
+
+        if len(email_input['subject']) == 0 or \
+           len(email_input['message']) == 0:
+           return jsonify({
+                'status': 400,
+                'error': 'please enter a subject and message'
+                }), 400
+        send = message.create_email(email_input)
+        return jsonify({
+            'status': 201,
+            'data': send
+        }), 201

@@ -7,3 +7,8 @@ messages = MessageHelpers()
 @apiv1.route('/messages', methods=['GET'])
 def returns_mail():
     return messages.get_messages()
+
+@apiv1.route('/messages', methods=['POST'])
+def sends_email():
+    data = request.get_json()
+    return messages.send_message(data)
