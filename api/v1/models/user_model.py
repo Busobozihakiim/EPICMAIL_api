@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class Users:
     USERS = []
-
+    
     def __init__(self):
         self.users = Users.USERS
 
