@@ -4,9 +4,10 @@ from werkzeug.security import generate_password_hash
 
 
 class Users:
-    def __init__(self):
-        USER = []
-        self.users = USER
+    USER = []
+
+    def __init__(self):        
+        self.users = Users.USER
 
     def create_user(self, args):
         """ Creates a user"""
