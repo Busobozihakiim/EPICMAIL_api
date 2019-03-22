@@ -1,5 +1,7 @@
-[![Build Status](https://travis-ci.com/Busobozihakiim/EPICMAIL_api.svg?branch=ft-view_all_emails-%23164691565)](https://travis-ci.com/Busobozihakiim/EPICMAIL_api)
-[![Coverage Status](https://coveralls.io/repos/github/Busobozihakiim/EPICMAIL_api/badge.svg?branch=ft-view_all_emails-%23164691565)](https://coveralls.io/github/Busobozihakiim/EPICMAIL_api?branch=ft-view_all_emails-%23164691565)
+[![Build Status](https://travis-ci.com/Busobozihakiim/EPICMAIL_api.svg?branch=develop)](https://travis-ci.com/Busobozihakiim/EPICMAIL_api)
+[![Coverage Status](https://coveralls.io/repos/github/Busobozihakiim/EPICMAIL_api/badge.svg?branch=develop)](https://coveralls.io/github/Busobozihakiim/EPICMAIL_api?branch=ft-view_all_emails-%23164691565)
+[![Build Status](https://travis-ci.com/Busobozihakiim/EPICMAIL_api.svg?branch=develop)](https://travis-ci.com/Busobozihakiim/EPICMAIL_api)
+[![Coverage Status](https://coveralls.io/repos/github/Busobozihakiim/EPICMAIL_api/badge.svg?branch=develop)](https://coveralls.io/github/Busobozihakiim/EPICMAIL_api?branch=ft-signup-%23164691440)
 [![Maintainability](https://api.codeclimate.com/v1/badges/0ff59272bb422a064fa1/maintainability)](https://codeclimate.com/github/Busobozihakiim/EPICMAIL_api/maintainability)
 # Epic Mail
 A web app that helps people exchange messages/information over the internet.

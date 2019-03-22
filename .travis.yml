@@ -3,7 +3,7 @@ python:
   - "3.6"
 branches:
   only:
-  - ft-view_all_emails-#164691565
+  - develop
 install:
   - pip install -r requirements.txt
 script:
