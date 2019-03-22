@@ -3,7 +3,7 @@ python:
   - "3.6"
 branches:
   only:
-  - ft-send_mail-#164691827
+  - develop
 install:
   - pip install -r requirements.txt
 script:
