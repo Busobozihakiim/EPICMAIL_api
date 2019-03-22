@@ -56,6 +56,4 @@ class TestMail(BaseTest):
                                  data=json.dumps(empty_input),
                                  content_type='application/json')
         self.assertTrue(response.status_code,  400)
-        self.assertIn(response.get_json()['error'],
-                      'Missing \'subject\' in your input')
-        self.assertIn(response.get_json()['message'], 'You dont have messages currently')
+        
