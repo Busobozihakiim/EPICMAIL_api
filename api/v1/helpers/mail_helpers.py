@@ -27,7 +27,7 @@ class MessageHelpers:
                 }), 400
       
         if validation.validate_email(email_input['from']) == False or \
-           validation.validate_email(email_input['to']) :
+           validation.validate_email(email_input['to']) == False:
             return jsonify({
                 'status': 400,
                 'error': 'An email is Invalid'
