@@ -70,3 +70,4 @@ class TestMail(BaseTest):
     #    response = self.app.get('api/v1/messages/sent')
     #    self.assertTrue(response.status_code, 200)
     #    self.assertIn(response.get_json()['message'], 'You don\'t have any sent messages')
+    

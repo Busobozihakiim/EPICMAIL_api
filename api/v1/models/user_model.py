@@ -3,11 +3,11 @@ import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class Users:
-    USER = []
+    USERS = []
+    
+    def __init__(self):
+        self.users = Users.USERS
 
-    def __init__(self):        
-        self.users = Users.USER
-        
     def create_user(self, args):
         """ Creates a user"""
         one_user = {

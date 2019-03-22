@@ -6,7 +6,7 @@ class Messages:
 
     def __init__(self):
         self.messages = Messages.MESSAGES
-    
+        
     def create_email(self, args):
         """Method to send an email"""
         one_email = {
@@ -20,7 +20,7 @@ class Messages:
         }
         self.messages.append(one_email)
         return one_email
-
+      
     def check_storage(self):
         if self.messages == []:
             return True
