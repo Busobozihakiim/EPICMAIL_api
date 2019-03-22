@@ -56,4 +56,11 @@ class TestMail(BaseTest):
                                  data=json.dumps(empty_input),
                                  content_type='application/json')
         self.assertTrue(response.status_code,  400)
-        
+        self.assertIn(response.get_json()['error'],
+                      'Missing \'subject\' in your input')
+    
+    def test_viewing_of_sent_message(self):
+        """Test sending email with empty subject or message"""
+        response = self.app.get('api/v1/messages/sent')
+        self.assertTrue(response.status_code, 200)
+        self.assertIn(response.get_json()['data'][0]['status'], 'sent')

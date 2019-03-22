@@ -25,11 +25,9 @@ class MessageHelpers:
                 'status': 400,
                 'error': 'Must enter four fields'
                 }), 400
-        
-        to = validation.validate_email(email_input['to']) 
-        sender = validation.validate_email(email_input['from'])
-        
-        if to == False or sender == False:
+      
+        if validation.validate_email(email_input['from']) == False or \
+           validation.validate_email(email_input['to']) == False:
             return jsonify({
                 'status': 400,
                 'error': 'An email is Invalid'
@@ -47,9 +45,21 @@ class MessageHelpers:
                                 "error":"Missing '{}' in your input".format(key)
                                 }), 400
 
-
         send = message.create_email(email_input)
         return jsonify({
             'status': 201,
             'data': send
         }), 201
+
+    def get_sent_messages(self):
+        retrieve = message.fetch_sent_mail()
+        if not retrieve:
+            return jsonify({
+                'status': 200,
+                'message': 'You don\'t have any sent messages'
+            }), 200
+        return jsonify({
+                'status': 200,
+                'data': retrieve
+            }), 200
+      
