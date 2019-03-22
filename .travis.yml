@@ -3,7 +3,7 @@ python:
   - "3.6"
 branches:
   only:
-  - ft-send_mail-#164691827
+  - ft-view_sent_emails-#164691699
 install:
   - pip install -r requirements.txt
 script:
