@@ -25,11 +25,9 @@ class MessageHelpers:
                 'status': 400,
                 'error': 'Must enter four fields'
                 }), 400
-        
-        to = validation.validate_email(email_input['to']) 
-        sender = validation.validate_email(email_input['from'])
-        
-        if to == False or sender == False:
+      
+        if validation.validate_email(email_input['from']) == False or \
+           validation.validate_email(email_input['to']) :
             return jsonify({
                 'status': 400,
                 'error': 'An email is Invalid'
@@ -46,7 +44,6 @@ class MessageHelpers:
                 return jsonify({"status":400,
                                 "error":"Missing '{}' in your input".format(key)
                                 }), 400
-
 
         send = message.create_email(email_input)
         return jsonify({
