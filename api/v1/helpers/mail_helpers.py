@@ -66,5 +66,5 @@ class MessageHelpers:
     def get_one_message(self, mail_id):
         select = message.fetch_one_mail(mail_id)
         if select:
-            return jsonify({'status':200, 'data' : [select]})
+            return jsonify({'status':200, 'data' : select})
         return jsonify({'status':200, 'error':'this message doesn\'t exist'})
