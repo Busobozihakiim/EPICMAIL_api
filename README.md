@@ -78,7 +78,7 @@ Acceptable post format When:
 - Sending an Email
 ```
 {
-    'To' : string,
+    'to' : string,
     'from' : string,
     'subject' : String ,
     'message' : String ,
