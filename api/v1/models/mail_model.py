@@ -27,3 +27,12 @@ class Messages:
 
     def fetch_all_mail(self):
         return self.messages
+    
+    def fetch_sent_mail(self):
+        sent = []
+        for mail in self.messages:
+            if mail['status'] == 'sent':
+                sent.append(mail)
+        if sent:
+            return sent
+        return False

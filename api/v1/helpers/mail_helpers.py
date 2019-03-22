@@ -53,3 +53,15 @@ class MessageHelpers:
             'status': 201,
             'data': send
         }), 201
+
+    def get_sent_messages(self):
+        retrieve = message.fetch_sent_mail()
+        if not retrieve:
+            return jsonify({
+                'status': 200,
+                'message': 'You don\'t have any sent messages'
+            }), 200
+        return jsonify({
+                'status': 200,
+                'data': retrieve
+            }), 200

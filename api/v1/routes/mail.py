@@ -12,3 +12,7 @@ def returns_mail():
 def sends_email():
     data = request.get_json()
     return messages.send_message(data)
+
+@apiv1.route('/messages/sent', methods=['GET'])
+def view_sent_emails():
+    return messages.get_sent_messages()
