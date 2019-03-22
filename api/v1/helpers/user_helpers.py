@@ -1,6 +1,6 @@
 """Creates User And Returns token"""
 from flask import jsonify
-from flask_jwt_extended import create_access_token
+#from flask_jwt_extended import create_access_token
 from api.v1.validators.input_validator import Validate
 from api.v1.models.user_model import Users
 
@@ -42,11 +42,8 @@ class UserHelpers:
                 'error': 'Email already exists'
                 }), 400
 
-        userid = signup.create_user(signup_data)["id"]
-        print(userid)
+        signup.create_user(signup_data)
         return jsonify({
             'status': 201,
-            'data': [{
-                'token': create_access_token(identity=userid)
-                }]
+            'data': 'account created'
             }), 201
