@@ -2,7 +2,7 @@ import os
 
 class BaseConfig:
     DEBUG = False
-    JWT_SECRET_KEY = os.environ['SECRET-KEY']
+    #JWT_SECRET_KEY = os.environ['SECRET-KEY']
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
