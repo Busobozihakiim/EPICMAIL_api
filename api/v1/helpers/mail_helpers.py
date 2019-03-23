@@ -2,9 +2,11 @@ from flask import jsonify
 #from flask_jwt_extended import create_access_token
 from api.v1.validators.input_validator import Validate
 from api.v1.models.mail_model import Messages
+from api.v1.models.contact_model import Contacts
 
 validation = Validate()
 message = Messages()
+contact = Contacts()
 
 class MessageHelpers:
     def get_messages(self):
@@ -45,11 +47,16 @@ class MessageHelpers:
                                 "error":"Missing '{}' in your input".format(key)
                                 }), 400
 
+        contact_exists = contact.check_contact(email_input['to'])
+        if contact_exists is not True:
+            return contact_exists
+
         send = message.create_email(email_input)
+            
         return jsonify({
             'status': 201,
             'data': send
-        }), 201
+            }), 201
 
     def get_message(self, status):
         retrieve = message.fetch_mail(status)

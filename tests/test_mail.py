@@ -1,11 +1,11 @@
 import json
 from .test_base import BaseTest
-from .mock_data import (email, email_invalid, email_less,
-                        empty_input, message_urself)
+from .mock_data import (email, email_invalid, email_less, contact,
+                        empty_input, message_urself, email_to_delete)
 
 
 class TestMailEmpty(BaseTest):
-    def test_get_messages(self):
+    def test_a_get_messages(self):
         """Test get all messages when there are none in the inbox"""
         response = self.app.get('api/v1/messages')
         self.assertTrue(response.status_code,  200)
@@ -22,29 +22,40 @@ class TestMailEmpty(BaseTest):
     def test_deleting(self):
         """Test deleting emails when non are available"""
         response = self.app.delete('api/v1/messages/1')
-        print(response.data)
-        self.assertIn(response.get_json()['error'], 'this message doesn\'t exist')                         
-       
+        self.assertIn(response.get_json()['error'], 'this message doesn\'t exist')
 
-
-class TestMailFilled(BaseTest):
     def test_send_email(self):
+        """Test sending mail when you the contact doesn't exist"""
         response = self.app.post('api/v1/messages',
                                  data=json.dumps(email),
                                  content_type='application/json')
         self.assertTrue(response.status_code,  400)
-        self.assertEqual(response.get_json()['data']['subject'], 'd')
+        self.assertEqual(response.get_json()['error'], 'You have no contacts')
+
+class TestMailFilled(BaseTest):
+    def test_send_email(self):
+        self.app.post('/api/v1/contact',
+                      data=json.dumps(contact),
+                      content_type='application/json')
+        response1 = self.app.post('api/v1/messages',
+                                 data=json.dumps(email),
+                                 content_type='application/json')
+        print(response1.data)
+        self.assertTrue(response1.status_code,  400)
+        self.assertEqual(response1.get_json()['data']['subject'], 'd')
 
     def test_get_messages(self):
         """Test get all messages"""
-        response = self.app.post('api/v1/messages',
-                                 data=json.dumps(email),
-                                 content_type='application/json')
+        self.app.post('/api/v1/contact', 
+                        data=json.dumps(contact),
+                        content_type='application/json')
+        self.app.post('api/v1/messages',
+                       data=json.dumps(email),
+                       content_type='application/json')
         response = self.app.get('api/v1/messages')
-        print(response.data)
         self.assertEqual(response.status_code,  200)
         self.assertEqual(response.get_json()['data'][0]['senderId'],
-                         'qw@epctester.com')
+                         'Me@epctester.com')
 
     def test_send_self_mail(self):
         """Test sending yourself an email"""
@@ -86,7 +97,6 @@ class TestMailFilled(BaseTest):
         """Test viewing sent email with available """
         response = self.app.get('api/v1/messages/sent')
         self.assertTrue(response.status_code, 200)
-        print(response.data)
         self.assertIn(response.get_json()['data'][0]['status'], 'sent')
 
     def test_viewing_email_null(self):
@@ -99,7 +109,6 @@ class TestMailFilled(BaseTest):
     def test_viewing_email_exist(self):
         """Test viewing one email with an id that doesn't exist"""
         response = self.app.get('api/v1/messages/2')
-        print(response.data)
         self.assertTrue(response.status_code, 200)
 
     def test_viewing_unread_mesages(self):
@@ -107,13 +116,15 @@ class TestMailFilled(BaseTest):
         response = self.app.get('api/v1/messages/unread')
         self.assertIn(response.get_json()['message'],
                          'You don\'t have any unread messages')
-
+    
     def test_deleting(self):
-        """Test deleting emails when non are available"""
-        response = self.app.post('api/v1/messages',
-                                 data=json.dumps(email),
-                                 content_type='application/json')
-        self.assertTrue(response.status_code, 200)
+        """Test deleting emails"""
+        self.app.post('/api/v1/contact', 
+                      data=json.dumps(contact),
+                      content_type='application/json')
+        self.app.post('api/v1/messages',
+                      data=json.dumps(email),
+                      content_type='application/json')
         response1 = self.app.delete('api/v1/messages/1')
         print(response1.data)
         self.assertIn(response1.get_json()['message'], 'Email has been deleted')
