@@ -17,9 +17,12 @@ def sends_email():
 def view_sent_emails():
     return messages.get_message('sent')
 
-@apiv1.route('/messages/<int:mail_id>', methods=['GET'])
-def view_one_email(mail_id):
-    return messages.get_one_message(mail_id)
+@apiv1.route('/messages/<int:mail_id>', methods=['GET', 'DELETE'])
+def view_or_delete_email(mail_id):
+    if request.method == 'GET':
+        return messages.get_or_delete_email(mail_id, 'get')
+    if request.method == 'DELETE':
+        return messages.get_or_delete_email(mail_id, 'delete')    
 
 @apiv1.route('/messages/unread', methods=['GET'])
 def view_unread_email():

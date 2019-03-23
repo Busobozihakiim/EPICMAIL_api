@@ -63,8 +63,16 @@ class MessageHelpers:
                 'data': retrieve
             }), 200
     
-    def get_one_message(self, mail_id):
-        select = message.fetch_one_mail(mail_id)
-        if select:
-            return jsonify({'status':200, 'data' : select})
+    def get_or_delete_email(self, mail_id, method):
+        if method == 'delete':
+            delete = message.delete_email(mail_id)
+            if delete:
+                return jsonify({'status': 200, 'error': 'Email has been deleted'})
+
+        if method == 'get':
+            select = message.fetch_one_mail(mail_id)
+            if select : 
+                return jsonify({'status':200, 'data' : select})
+            
         return jsonify({'status':200, 'error':'this message doesn\'t exist'})
+

@@ -1,4 +1,5 @@
 """MESSAGES ENTITY"""
+from flask import jsonify
 from datetime import datetime
 
 class Messages:
@@ -47,3 +48,10 @@ class Messages:
         if not email:
             return False
         return email        
+
+    def delete_email(self, the_id):
+        for email in self.messages:
+            if email['id'] == the_id:
+                del self.messages[0]
+                return True
+        return False
