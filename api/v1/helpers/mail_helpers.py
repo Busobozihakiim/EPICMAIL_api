@@ -67,7 +67,7 @@ class MessageHelpers:
         if method == 'delete':
             delete = message.delete_email(mail_id)
             if delete:
-                return jsonify({'status': 200, 'error': 'Email has been deleted'})
+                return jsonify({'status': 200, 'message': 'Email has been deleted'})
 
         if method == 'get':
             select = message.fetch_one_mail(mail_id)
