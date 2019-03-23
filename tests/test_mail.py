@@ -79,6 +79,7 @@ class TestMailFilled(BaseTest):
         """Test viewing sent email with available """
         response = self.app.get('api/v1/messages/sent')
         self.assertTrue(response.status_code, 200)
+        print(response.data)
         self.assertIn(response.get_json()['data'][0]['status'], 'sent')
 
     def test_viewing_email_null(self):
@@ -93,3 +94,9 @@ class TestMailFilled(BaseTest):
         response = self.app.get('api/v1/messages/2')
         print(response.data)
         self.assertTrue(response.status_code, 200)
+
+    def test_viewing_unread_mesages(self):
+        """Test viewing unread emails"""
+        response = self.app.get('api/v1/messages/unread')
+        self.assertIn(response.get_json()['message'],
+                         'You don\'t have any unread messages')
