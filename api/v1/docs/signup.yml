@@ -1,0 +1,49 @@
+Signs up a user
+---
+tags:
+  - Authentication
+parameters:
+  - name: body
+    in: body
+    type: string
+    required: true
+    description: Enter a password a firstname and an email
+    schema:
+      id: signup a user
+      properties:
+        email:
+          type: string
+          example: johnlocke@mif.com
+        firstname:
+          type: strinf 
+          example: John
+        lastname:
+          type: string
+          example: locke
+        password: 
+          type: string
+          example: password
+
+responses:
+  200:
+    description: An account is created successfully
+    schema:
+      id: User
+      example:
+        - response:
+            message: account created
+  400:
+    description: One of the Responses when a user has entered bad formatted
+    schema: 
+      id: signup error
+      example:
+        - response:
+            error: Your missing a field
+        - response:
+            error: Invalid Email
+        - response:
+            error: Password must be more than 8 characters
+        - response:
+            error: Names must be strings
+        - response:
+           error: Email already exists

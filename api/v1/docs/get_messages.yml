@@ -1,0 +1,27 @@
+Returns all messages
+---
+tags:
+  - Messages
+parameters:
+- in: path
+  name: path
+  description: fetches all messages in the inbox
+  required: true
+responses:
+  200:
+      description: Response when all messages are available or non are available.
+      schema:
+        id: Get message
+        example:
+          - response:
+              message: You dont have messages currently
+          - response:
+              - data:
+                  date: Datetime,
+                  from: merlystreep@hollywoo.com,
+                  id: integer,
+                  status: sent / unread,
+                  subject: subject,
+                  to: johnlocke@mif.com
+
+          

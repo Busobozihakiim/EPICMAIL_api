@@ -29,8 +29,8 @@ class MessageHelpers:
 
     def send_message(self, email_input):
         """Sends a message"""
-        if self.check_length(email_input) is not False:
-            return self.check_length(email_input)
+        if validation.check_length(email_input) is not False:
+            return validation.check_length(email_input)
 
         if validation.validate_email(email_input['from']) is False or \
            validation.validate_email(email_input['to']) is False:
@@ -84,11 +84,3 @@ class MessageHelpers:
 
         return jsonify({'status': 200, 'error': 'this message doesn\'t exist'})
 
-    def check_length(self, email_input):
-        """Check for input from user"""
-        if 4 > len(email_input) < 4:
-            return jsonify({
-                'status': 400,
-                'error': 'Must enter four fields'
-                }), 400
-        return False

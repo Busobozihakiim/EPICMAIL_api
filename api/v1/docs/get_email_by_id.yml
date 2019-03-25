@@ -1,0 +1,26 @@
+Returns a message given an id
+---
+tags:
+  - Messages
+parameters:
+  - name: path
+    in: path
+    type: integer
+    required: true
+    description: Enter an emails id to retreive it
+responses:
+  200:
+    description: first response is when you have messages second is when you dont have any messages
+    schema:
+      id: get email by id responses
+      example:
+        - response:
+            - data:
+                date: Datetime,
+                from: merlystreep@hollywoo.com,
+                id: integer,
+                status: sent / unread,
+                subject: subject,
+                to: johnlocke@mif.com 
+        - response:
+            error: this message doesn't exist

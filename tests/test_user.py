@@ -24,7 +24,7 @@ class TestUserRoutes(BaseTest):
         response = self.app.post('/api/v1/auth/signup',
                                  data=json.dumps(missing_required_data),
                                  content_type='application/json')
-        self.assertIn(response.get_json()["error"], "Your missing a field")
+        self.assertIn(response.get_json()["error"], "Must enter four fields")
         self.assertEqual(response.status_code, 400)
     
     def test_signup_invalid_email(self):

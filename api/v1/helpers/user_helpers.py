@@ -10,11 +10,8 @@ signup = Users()
 class UserHelpers:
     def make_user(self, signup_data):
         """Checks if data is valid gives a user an access token"""
-        if len(signup_data) < 4:
-            return jsonify({
-                'status': 400,
-                'error': 'Your missing a field'
-                }), 400
+        if validation.check_length(signup_data) is not False:
+            return validation.check_length(signup_data)
 
         if not validation.validate_email(signup_data['email']):
             return jsonify({
