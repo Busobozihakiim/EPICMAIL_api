@@ -18,6 +18,13 @@ class TestMailEmpty(BaseTest):
         self.assertTrue(response.status_code, 200)
         self.assertIn(response.get_json()['message'],
                       'You don\'t have any sent messages')
+    
+    def test_deleting(self):
+        """Test deleting emails when non are available"""
+        response = self.app.delete('api/v1/messages/1')
+        print(response.data)
+        self.assertIn(response.get_json()['error'], 'this message doesn\'t exist')                         
+       
 
 
 class TestMailFilled(BaseTest):
@@ -100,3 +107,15 @@ class TestMailFilled(BaseTest):
         response = self.app.get('api/v1/messages/unread')
         self.assertIn(response.get_json()['message'],
                          'You don\'t have any unread messages')
+
+    def test_deleting(self):
+        """Test deleting emails when non are available"""
+        response = self.app.post('api/v1/messages',
+                                 data=json.dumps(email),
+                                 content_type='application/json')
+        self.assertTrue(response.status_code, 200)
+        response1 = self.app.delete('api/v1/messages/1')
+        print(response1.data)
+        self.assertIn(response1.get_json()['message'], 'Email has been deleted')
+                           
+                             
