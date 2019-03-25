@@ -29,19 +29,20 @@ class Messages:
     def fetch_all_mail(self):
         return self.messages
     
-    def fetch_sent_mail(self):
-        sent = []
+    def fetch_mail(self, status):
+        folder = []
         for mail in self.messages:
-            if mail['status'] == 'sent':
-                sent.append(mail)
-        if sent:
-            return sent
+            if mail['status'] == '{}'.format(status):
+                folder.append(mail)
+        if folder:
+            return folder
         return False
 
     def fetch_one_mail(self, this_id):
         email = []
         for this_email in self.messages:
             if this_email['id'] == this_id:
+                this_email['status'] = 'read'
                 email.append(this_email)
         if not email:
             return False
