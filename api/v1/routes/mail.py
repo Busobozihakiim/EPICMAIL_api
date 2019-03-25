@@ -16,3 +16,7 @@ def sends_email():
 @apiv1.route('/messages/sent', methods=['GET'])
 def view_sent_emails():
     return messages.get_sent_messages()
+
+@apiv1.route('/messages/<int:mail_id>', methods=['GET'])
+def view_one_email(mail_id):
+    return messages.get_one_message(mail_id)
