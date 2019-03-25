@@ -1,6 +1,5 @@
 """Creates User And Returns token"""
 from flask import jsonify
-#from flask_jwt_extended import create_access_token
 from api.v1.validators.input_validator import Validate
 from api.v1.models.user_model import Users
 

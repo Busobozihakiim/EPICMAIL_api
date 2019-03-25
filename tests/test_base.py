@@ -1,7 +1,6 @@
 import json
 import unittest
 from api import create_app
-#from flask_jwt_extended import JWTManager
 from .mock_data import signup_data
 
 class BaseTest(unittest.TestCase):
