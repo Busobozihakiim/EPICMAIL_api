@@ -33,7 +33,7 @@ class TestUserRoutes(BaseTest):
                                  data=json.dumps(bad_email),
                                  content_type='application/json')
         print(response.data)
-        self.assertIn(response.get_json()["error"], "Invalid Email")                        
+        self.assertIn(response.get_json()["error"], "An email is Invalid")                        
         self.assertEqual(response.status_code, 400)
     
     def test_signup_short_password(self):
@@ -94,7 +94,7 @@ class TestUserRoutes(BaseTest):
         response = self.app.post('/api/v1/contact',
                                  data=json.dumps(contact_bad_email),
                                  content_type='application/json')
-        self.assertIn(response.get_json()["error"], "This email is invalid")
+        self.assertIn(response.get_json()["error"], "An email is Invalid")
         self.assertEqual(response.status_code, 400)
         
     def test_creating_contact_bad_name(self):
@@ -120,7 +120,7 @@ class TestUserRoutes(BaseTest):
     
     def test_deleting_null_contact(self):
         """test deleting of non existing contacts"""
-        response = self.app.delete('/api/v1/contact/5')
+        response = self.app.delete('/api/v1/contact/6')
         print(response.data)
         self.assertEqual(response.status_code, 200)
         self.assertIn(response.get_json()['error'], "Contact doesn\'t exist")

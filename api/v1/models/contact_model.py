@@ -10,9 +10,8 @@ class Contacts:
 
     def add_contact(self, args):
         """save contact"""
-        if not validation.validate_email(args['email']):
-            return jsonify({'status': 400,
-                            'error': 'This email is invalid'}), 400
+        if validation.validate_email(args['email']) is not True:
+            return validation.validate_email(args['email'])
 
         if not validation.validate_names(args['firstname'], args['lastname']):
             return jsonify({'status': 400,

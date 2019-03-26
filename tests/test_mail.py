@@ -1,7 +1,8 @@
 import json
 from .test_base import BaseTest
 from .mock_data import (email, email_invalid, email_less, contact,
-                        empty_input, message_urself, email_to_delete)
+                        empty_input, message_urself, email_to_delete,
+                        email_bad_contact, email_none)
 
 
 class TestMailEmpty(BaseTest):
@@ -31,6 +32,14 @@ class TestMailEmpty(BaseTest):
                                  content_type='application/json')
         self.assertTrue(response.status_code,  400)
         self.assertEqual(response.get_json()['error'], 'You have no contacts')
+    
+    def test_a_getcontact(self):
+        """tries to retrive all contact when none exist"""
+        response = self.app.get('/api/v1/contact')
+        print(response.data)
+        self.assertIn(response.get_json()["error"], "You have no contacts")
+        self.assertEqual(response.status_code, 200)
+
 
 class TestMailFilled(BaseTest):
     def test_send_email(self):
@@ -43,6 +52,27 @@ class TestMailFilled(BaseTest):
         print(response1.data)
         self.assertTrue(response1.status_code,  400)
         self.assertEqual(response1.get_json()['data']['subject'], 'd')
+    
+    def test_send_email_2(self):
+        """Tests whether th recievers email is null"""
+        self.app.post('/api/v1/contact',
+                      data=json.dumps(contact),
+                      content_type='application/json')
+        response1 = self.app.post('api/v1/messages',
+                                 data=json.dumps(email_bad_contact),
+                                 content_type='application/json')
+        print(response1.data)
+        self.assertTrue(response1.status_code,  400)
+        self.assertEqual(response1.get_json()['error'], 'An email is Invalid')
+    
+    def test_send_email_3(self):
+        """Tests when the contact doesnt exist"""
+        response1 = self.app.post('api/v1/messages',
+                                 data=json.dumps(email_none),
+                                 content_type='application/json')
+        print(response1.data)
+        self.assertTrue(response1.status_code,  400)
+        self.assertEqual(response1.get_json()['error'], 'The email your sending to is not in your contacts')
 
     def test_get_messages(self):
         """Test get all messages"""

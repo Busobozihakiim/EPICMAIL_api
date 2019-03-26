@@ -9,13 +9,20 @@ class Validate:
         """Validates a user email"""
         if re.match(r"[^@\s]+@[^@\s]+\.[a-zA-Z0-9]+$", email):
             return True
-        return False
-
+        return jsonify({
+            'status': 400,
+            'error': 'An email is Invalid'
+            }), 400
+        
     def validate_password(self, password):
         """Validates a user password"""
         if len(password) < 8:
-            return False
+            return jsonify({
+                'status': 400,
+                'error': 'Password must be more than 8 characters'
+                }), 400
         return True
+        
 
     def validate_names(self, fname, lname):
         """Validates the first and lastnames"""
@@ -24,11 +31,18 @@ class Validate:
             return True
         return False
 
-    def check_length(self, user_input):
+    def validate_length(self, user_input):
         """Check for input from user"""
         if 4 > len(user_input) < 4:
             return jsonify({
                 'status': 400,
                 'error': 'Must enter four fields'
                 }), 400
+    
+        for key, value in user_input.items():
+            if value in ("", " "):
+                return jsonify({"status": 400,
+                                "error": "Missing '{}' in your input".format(key)
+                                }), 400
         return False
+
