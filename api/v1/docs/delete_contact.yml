@@ -1,0 +1,15 @@
+Deletes a contact
+---
+tags:
+  - Contacts
+parameters:
+- in: path
+  name: signup
+  type: integer
+  required: true
+  description: Endpoint that removes a contact from your contacts list  
+responses:
+  200:
+      description: Contact removed
+  400:
+    description: Contact doesn\'t exist

@@ -1,0 +1,27 @@
+Return a message based on its status
+---
+tags:
+  - Messages
+parameters:
+  - name: status
+    in: path
+    type: string
+    required: true
+    description: In the path, enter sent for sent messages or unread for unread messages
+
+responses:
+  200:
+    description: first response is when you have messages second is when you dont have messages
+    schema:
+      id: view by status
+      example:
+        - response:
+            - data:
+                id: integer
+                date: Datetime
+                to: johnlocke@mif.com
+                from: merlystreep@hollywoo.com
+                subject: subject
+                status: sent / unread
+        - response:
+            message: You don't have any sent/unread messages

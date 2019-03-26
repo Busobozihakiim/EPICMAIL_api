@@ -1,0 +1,51 @@
+Sends a message
+---
+tags:
+  - Messages
+parameters:
+  - name: body
+    in: body
+    type: string
+    required: true
+    description: Enter a subject the recievers email and your email and a message in order to send a message
+    schema:
+      id: sendmessage
+      properties:
+        subject:
+          type: string
+          example: the apostles
+        message:
+          type: string
+          example: The syndicate is catching up
+        to:
+          type: string
+          example: ethanhunt@mif.com
+        from:
+          type: string
+          example: johnlocke@gmail.com
+responses:
+  201:
+    description: response when a contact has been sent
+    schema:
+      id: message
+      example:
+        - data:
+            id: integer
+            data: Datetime
+            to: johnlocke@mif.com
+            from: merlystreep@hollywoo.com
+            subject: subject
+  400:
+    description: You will get one of the following responses when you enter malformed data
+    schema:
+      id: create message error
+      example:
+        - response:
+            error: Must enter four fields
+        - response:
+            error: Missing <value-you-didn't-enter> in your input
+        - response:
+            error: You have no contacts
+        - response:
+            error: The email your sending to is not in your contacts
+  

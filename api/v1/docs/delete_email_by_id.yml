@@ -1,0 +1,20 @@
+Deletes a message given an id
+---
+tags:
+  - Messages
+parameters:
+  - name: id
+    in: path
+    type: integer
+    required: true
+    description: Enter an email's id to delete it
+responses:
+  200:
+    description: Response when the names or email are invalid
+    schema:
+      id: error5
+      example:
+        - response:
+            message: Email has been deleted
+        - response:
+            error: this message doesn\'t exist

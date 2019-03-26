@@ -1,0 +1,26 @@
+Returns all contact
+---
+tags:
+  - Contacts
+parameters:
+  - name: path
+    in: path
+    description: Returns all contacts
+responses:
+  200:
+    description: Returns all contacts if you have any or Returns an error message if you have no contacts
+    schema:
+      id: get all contacts responses
+      example:
+        - response:
+           - data:
+                date: Datetime,
+                from: merlystreep@hollywoo.com,
+                id: integer,
+                status: sent / unread,
+                subject: subject,
+                to: johnlocke@mif.com 
+      type: string
+      example:      
+        - message:
+          error: You have no contacts

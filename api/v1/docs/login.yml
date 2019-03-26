@@ -1,0 +1,25 @@
+logs in a user
+---
+tags:
+  - Authentication
+parameters:
+  - in: body
+    name: body
+    type: string
+    required: true
+    description: Enter the email and password
+    schema:
+      id: logsin
+      properties:
+        email:
+          type: string
+          example: johnlocke@re.com
+        password:
+          type: string
+          example: passcode
+responses:
+  200:
+    description: User has successfully logged in
+  400:
+    description: User entered bad credentials
+  

@@ -57,15 +57,6 @@ class TestMailFilled(BaseTest):
         self.assertEqual(response.get_json()['data'][0]['senderId'],
                          'Me@epctester.com')
 
-    def test_send_self_mail(self):
-        """Test sending yourself an email"""
-        response = self.app.post('api/v1/messages',
-                                 data=json.dumps(message_urself),
-                                 content_type='application/json')
-        self.assertTrue(response.status_code,  400)
-        self.assertIn(response.get_json()['error'],
-                      'You can\'t send yourself an email')
-
     def test_send_mail_with_bad_email(self):
         """Test send an email with an invalid email"""
         response = self.app.post('api/v1/messages',

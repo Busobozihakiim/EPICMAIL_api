@@ -53,9 +53,9 @@ pytest
 Use the api endpoints with an app like [Postman](https://www.getpostman.com/apps) 
 
 ## Hosted on Heroku
-The online api can be found here
+The online api can be found [here](https://epicmail007.herokuapp.com/api/v1/)
 
-https://epicmail007.herokuapp.com/api/v1/
+And documentation is [here](https://epicmail007.herokuapp.com/apidocs/)
 
 Acceptable post format When:
 - Signing up for an account

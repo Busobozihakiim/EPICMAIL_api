@@ -1,0 +1,45 @@
+Saves a contact
+---
+tags:
+  - Contacts
+parameters:
+  - name: body
+    in: body
+    type: string
+    required: true
+    description: Enter email firstname and lastname to save a contact
+    schema:
+      id: contact
+      properties:
+        email: 
+          example: merylstreephollywoo.com
+          type: string
+        firstname:
+          example: meryl
+          type: string
+        lastname:
+          example: streep
+          type: string
+responses:
+  200:
+    description: Response when the names or email are invalid
+    schema:
+      id: Contacterror
+      example:
+        - reponse:
+            error: Names should be strings
+        - response:
+            error: This email is invalid
+        - response:
+            error: You have no contact
+  201:
+    description: response when a contact has been created
+    schema:
+      id: Contact error
+      example:
+        - reponse:
+          - data:
+              id: integer
+              email: merylstreep@hollywoo.com
+              firstname: meryl
+              lastname: streep
