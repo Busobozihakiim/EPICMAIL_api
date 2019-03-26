@@ -29,31 +29,21 @@ class MessageHelpers:
 
     def send_message(self, email_input):
         """Sends a message"""
-        if validation.check_length(email_input) is not False:
-            return validation.check_length(email_input)
+        if validation.validate_length(email_input) is not False:
+            return validation.validate_length(email_input)
 
-        if validation.validate_email(email_input['from']) is False or \
-           validation.validate_email(email_input['to']) is False:
-            return jsonify({
-                'status': 400,
-                'error': 'An email is Invalid'
-                }), 400
+        if validation.validate_email(email_input['from']) is not True:
+            return validation.validate_email(email_input['from'])
 
-        for key, value in email_input.items():
-            if value in ("", " "):
-                return jsonify({"status": 400,
-                                "error": "Missing '{}' in your input".format(key)
-                                }), 400
-
-        contact_exists = contact.check_contact(email_input['to'])
-        if contact_exists is not True:
-            return contact_exists
-
-        send = message.create_email(email_input)
+        if validation.validate_email(email_input['to']) is not True:
+            return validation.validate_email(email_input['to'])
+    
+        if contact.check_contact(email_input['to']) is not True:
+            return contact.check_contact(email_input['to'])
 
         return jsonify({
             'status': 201,
-            'data': send
+            'data': message.create_email(email_input)
             }), 201
 
     def get_message(self, status):
@@ -71,16 +61,12 @@ class MessageHelpers:
 
     def get_or_delete_email(self, mail_id, method):
         """deletes or returns an email"""
-        if method == 'delete':
-            delete = message.delete_email(mail_id)
-            if delete:
-                return jsonify({'status': 200,
-                                'message': 'Email has been deleted'})
-
-        if method == 'get':
-            select = message.fetch_one_mail(mail_id)
-            if select:
-                return jsonify({'status': 200, 'data': select})
+        if method == 'delete'and message.delete_email(mail_id):
+            message.delete_email(mail_id)
+            return jsonify({'status': 200,
+                            'message': 'Email has been deleted'})
+        if method == 'get' and message.fetch_one_mail(mail_id):            
+            return jsonify({'status': 200, 'data': message.fetch_one_mail(mail_id)})
 
         return jsonify({'status': 200, 'error': 'this message doesn\'t exist'})
 

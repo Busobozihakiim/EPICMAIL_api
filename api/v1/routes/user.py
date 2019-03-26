@@ -17,10 +17,9 @@ def home():
         'status': '200'
         }), 200
 
-
 @apiv1.route('/auth/signup', endpoint='signup', methods=['POST'])
 @swag_from('../docs/signup.yml', methods=['POST'])
-def signup_or_login():
+def signup():
     """Creates a User Account """
     data = request.get_json()
     return user_helper.make_user(data)
