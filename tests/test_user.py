@@ -120,7 +120,7 @@ class TestUserRoutes(BaseTest):
     
     def test_deleting_null_contact(self):
         """test deleting of non existing contacts"""
-        response = self.app.delete('/api/v1/contact/5')
+        response = self.app.delete('/api/v1/contact/6')
         print(response.data)
         self.assertEqual(response.status_code, 200)
         self.assertIn(response.get_json()['error'], "Contact doesn\'t exist")

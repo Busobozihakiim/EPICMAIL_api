@@ -90,3 +90,15 @@ email_to_delete = {
 	"from" : "Me@epctester.com" ,
 	"to" : "John@epictester.com"
 }
+email_bad_contact = {
+    "subject" : "d",
+	"message" : "String" ,
+	"from" : "Me@epctester.com" ,
+	"to" : "Johnepictester.com"
+}
+email_none = {
+    "subject" : "d",
+	"message" : "String" ,
+	"from" : "Me@epctester.com" ,
+	"to" : "Joh@epictester.com"
+}
