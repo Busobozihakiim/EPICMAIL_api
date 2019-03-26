@@ -41,6 +41,8 @@ class Messages:
 
     def fetch_one_mail(self, this_id):
         email = []
+        print(self.messages)
+        print(email)
         for this_email in self.messages:
             if this_email['id'] == this_id:
                 this_email['status'] = 'read'

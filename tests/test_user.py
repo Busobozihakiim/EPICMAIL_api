@@ -1,5 +1,8 @@
 import json
-from .mock_data import *
+from .mock_data import (signup_data, missing_login_field, message_urself,
+                        message_urself, missing_required_data, bad_creds,
+                        bad_email, bad_names, short_password, login_data,
+                        contact, contact_bad_email, contact_bad_name)
 from .test_base import BaseTest
 
 class TestUserRoutes(BaseTest):
@@ -75,5 +78,47 @@ class TestUserRoutes(BaseTest):
                                  content_type='application/json')
         self.assertIn(response.get_json()["error"], "Incorrect credentials")
         self.assertEqual(response.status_code, 400)
-
     
+    def test_creating_contact(self):
+        """test creating a contact"""
+        response = self.app.post('/api/v1/contact',
+                                 data=json.dumps(contact),
+                                 content_type='application/json')
+        self.assertIn(response.get_json()["data"]["email"], "John@epictester.com")
+        self.assertEqual(response.status_code, 201)
+
+    def test_creating_contact_bad_email(self):
+        """test creating a contact with a bad email"""
+        response = self.app.post('/api/v1/contact',
+                                 data=json.dumps(contact_bad_email),
+                                 content_type='application/json')
+        self.assertIn(response.get_json()["error"], "This email is invalid")
+        self.assertEqual(response.status_code, 400)
+        
+    def test_creating_contact_bad_name(self):
+        """test creating a with a bad name"""
+        response = self.app.post('/api/v1/contact',
+                                 data=json.dumps(contact_bad_name),
+                                 content_type='application/json')
+        self.assertIn(response.get_json()["error"], "Names should be strings")
+        self.assertEqual(response.status_code, 400)
+    
+    def test_view_contacts(self):
+        """test viewing contacts"""
+        response = self.app.get('/api/v1/contact')
+        print(response.data)
+        self.assertIn(response.get_json()["data"][0]["email"], "John@epictester.com")
+        self.assertEqual(response.status_code, 200)
+
+    def test_deleting_contact(self):
+        """test deletion of a contact contacts"""
+        self.app.post('/api/v1/contact/1',data=json.dumps(contact),content_type='application/json')
+        response = self.app.delete('/api/v1/contact/1')
+        self.assertEqual(response.status_code, 200)
+    
+    def test_deleting_null_contact(self):
+        """test deleting of non existing contacts"""
+        response = self.app.delete('/api/v1/contact/5')
+        print(response.data)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(response.get_json()['error'], "Contact doesn\'t exist")
