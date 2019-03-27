@@ -17,6 +17,7 @@ def home():
         'status': '200'
         }), 200
 
+
 @apiv1.route('/auth/signup', endpoint='signup', methods=['POST'])
 @swag_from('../docs/signup.yml', methods=['POST'])
 def signup():
@@ -48,4 +49,4 @@ def contact():
 @swag_from('../docs/delete_contact.yml', methods=['DELETE'])
 def delete_contact(contactid):
     """Remove a contact"""
-    return contacts.remove_contact(contactid)
+    return contacts.remove_contact(contactid, 1)

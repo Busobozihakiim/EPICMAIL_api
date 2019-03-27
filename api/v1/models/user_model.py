@@ -1,37 +1,33 @@
 """USER ENTITY """
 from werkzeug.security import generate_password_hash, check_password_hash
+from api.v1.models.database import Database
 
 
-class Users:
+class Users():
     """Maps to the user entity"""
-    APPUSERS = []
+    storage = Database()
 
     def __init__(self):
-        self.user = Users.APPUSERS
+        pass
 
     def create_user(self, args):
         """ Creates a user"""
-        one_user = {
-            'id': len(self.user) + 1,
-            'email': args['email'],
-            'firstName': args['firstName'],
-            'lastName': args['lastName'],
-            'password': generate_password_hash(args['password'], 'pbkdf2:sha256', 9),
-        }
-        self.user.append(one_user)
-        return one_user
+        email = args['email']
+        firstname = args['firstName']
+        lastname = args['lastName']
+        password = generate_password_hash(args['password'], 'pbkdf2:sha256', 9)
+        savedUser = self.storage.save_user(firstname, lastname, email, password)
+        return True
 
     def check_email_exists(self, email):
         """checks if an email is already used"""
-        for a_user in self.user:
-            if a_user['email'] == email:
-                return True
+        if self.storage.check_email(email):
+            return True
         return False
 
-    def check_matching_password(self, email, password):
+    def check_matching_password(self, email, login_pass):
         """check if password and email exist"""
-        for a_user in self.user:
-            if a_user['email'] == email and \
-               check_password_hash(a_user['password'], password):
-                return True
+        password = self.storage.login_user(email)
+        if check_password_hash(password, login_pass):
+            return True
         return False

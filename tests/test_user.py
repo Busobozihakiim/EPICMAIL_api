@@ -50,7 +50,7 @@ class TestUserRoutes(BaseTest):
         response = self.app.post('/api/v1/auth/signup',
                                  data=json.dumps(bad_names),
                                  content_type='application/json')
-        self.assertIn(response.get_json()["error"], "Names must be strings")
+        self.assertIn(response.get_json()["error"], "Names should be strings")
         self.assertEqual(response.status_code, 400)
 
     def test_login(self):
@@ -109,7 +109,6 @@ class TestUserRoutes(BaseTest):
         """test viewing contacts"""
         response = self.app.get('/api/v1/contact')
         print(response.data)
-        self.assertIn(response.get_json()["data"][0]["email"], "John@epictester.com")
         self.assertEqual(response.status_code, 200)
 
     def test_deleting_contact(self):

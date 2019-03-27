@@ -29,7 +29,8 @@ class Validate:
         is_string = re.compile(r"^[a-zA-Z]+$")
         if is_string.match(fname) and is_string.match(lname):
             return True
-        return False
+        return jsonify({'status': 400,
+                        'error': 'Names should be strings'}), 400
 
     def validate_length(self, user_input):
         """Check for input from user"""
@@ -45,4 +46,3 @@ class Validate:
                                 "error": "Missing '{}' in your input".format(key)
                                 }), 400
         return False
-

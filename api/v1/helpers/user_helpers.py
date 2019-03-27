@@ -8,6 +8,7 @@ signup = Users()
 
 
 class UserHelpers:
+
     def make_user(self, signup_data):
         """Checks if data is valid gives a user an access token"""
         if validation.validate_length(signup_data) is not False:
@@ -17,10 +18,12 @@ class UserHelpers:
             return validation.validate_email(signup_data['email'])
 
         if validation.validate_password(signup_data['password']) is not True:
-           return validation.validate_password(signup_data['password'])
+            return validation.validate_password(signup_data['password'])
 
-        if not validation.validate_names(signup_data['firstName'], signup_data['lastName']):
-            return jsonify({'status': 400, 'error': 'Names must be strings'}), 400
+        if validation.validate_names(signup_data['firstName'],
+                                     signup_data['lastName']) is not True:
+            return validation.validate_names(signup_data['firstName'],
+                                             signup_data['lastName'])
 
         if signup.check_email_exists(signup_data['email']):
             return jsonify({
@@ -41,7 +44,8 @@ class UserHelpers:
                 'status': 400,
                 'error': 'Your missing an email or password'
                 }), 400
-
+        print('login data')
+        print(login_data['email'], login_data['password'])
         access_account = signup.check_matching_password(
             login_data['email'], login_data['password'])
 

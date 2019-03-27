@@ -1,65 +1,38 @@
 """MESSAGES ENTITY"""
 from datetime import datetime
+from api.v1.models.database import Database
 
 
-class Messages:
+class Messages():
     """Maps to the Messages entity"""
-    USERMESSAGES = []
-
-    def __init__(self):
-        self.message = Messages.USERMESSAGES
+    storage = Database()
 
     def create_email(self, args):
         """Method to send an email"""
-        one_email = {
-            'id': len(self.message) + 1,
-            'createdOn': datetime.now(),
-            'subject': args['subject'],
-            'message': args['message'],
-            'senderId': args['from'],
-            'receiverId': args['to'],
-            'status': 'sent'
-        }
-        self.message.append(one_email)
+        one_email = self.storage.save_message(args['subject'], args['message'],
+                                              args['from'], args['to'],)
         return one_email
 
     def check_storage(self):
         """Are messages available"""
-        if self.message == []:
-            return True
-        return False
+        if self.storage.get_all_from_table('messages'):
+            return False
+        return True
 
     def fetch_all_mail(self):
         """Return all"""
-        return self.message
+        return self.storage.get_all_from_table('messages')
 
     def fetch_mail(self, status):
         """Return based on status"""
-        folder = []
-        for mail in self.message:
-            if mail['status'] == '{}'.format(status):
-                folder.append(mail)
-        if folder:
-            return folder
+        if self.storage.get_by_status(status, 1):
+            return self.storage.get_by_status(status, 1)
         return False
 
-    def fetch_one_mail(self, this_id):
+    def fetch_one_mail(self, Object_id, Userid):
         """Return one message"""
-        email = []
-        print(self.message)
-        print(email)
-        for this_email in self.message:
-            if this_email['id'] == this_id:
-                this_email['status'] = 'read'
-                email.append(this_email)
-        if not email:
-            return False
-        return email
+        return self.storage.get_from_table('messages', 1, Object_id)
 
-    def delete_email(self, the_id):
-        """Removes mail"""
-        for email in self.message:
-            if email['id'] == the_id:
-                del self.message[0]
-                return True
-        return False
+    def delete_email(self, Id, Uid):
+        """Removes mail from storage"""
+        return self.storage.delete_from_table('messages', 'message', Id, 1)

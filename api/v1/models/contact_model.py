@@ -1,53 +1,53 @@
 """CONTACT ENTITY"""
 from flask import jsonify
 from api.v1.validators.input_validator import Validate
+from api.v1.models.database import Database
 
 validation = Validate()
 
 
-class Contacts:
-    all_contacts = []
+class Contacts():
+    storage = Database()
+
+    def __init__(self):
+        pass
 
     def add_contact(self, args):
         """save contact"""
         if validation.validate_email(args['email']) is not True:
             return validation.validate_email(args['email'])
 
-        if not validation.validate_names(args['firstname'], args['lastname']):
-            return jsonify({'status': 400,
-                            'error': 'Names should be strings'}), 400
+        if validation.validate_names(args['firstname'], args['lastname']) is not True:
+            return validation.validate_names(args['firstname'], args['lastname'])
 
-        contact = {
-            'id': len(Contacts.all_contacts) + 1,
-            'email': args['email'],
-            'firstName': args['firstname'],
-            'lastName': args['lastname']
-        }
-        Contacts.all_contacts.append(contact)
-        return jsonify({'status': 201, 'data': contact}), 201
+        self.storage.save_contact(args['firstname'], args['lastname'],
+                                  args['email'], 1)
+        return jsonify({'status': 201,
+                        'message': 'contact has been saved'}), 201
 
     def get_contacts(self):
         """returns all contacts"""
-        if Contacts.all_contacts == []:
+        saved_contacts = self.storage.get_all_from_table('Contacts')
+        if not saved_contacts:
             return jsonify({'status': 200, 'error': 'You have no contacts'})
-        return jsonify({'status': 200, 'data': Contacts.all_contacts})
+        return jsonify({'status': 200, 'data': saved_contacts})
 
-    def check_contact(self, email):
+    def check_contact(self, email, userid=None):
         """Does a contact exist"""
-        if not Contacts.all_contacts:
+        saved_contacts = self.storage.get_all_from_table('Contacts')
+        if not saved_contacts:
             return jsonify({'status': 200,
                             'error': 'You have no contacts'})
-        contact = [contact for contact in Contacts.all_contacts if contact['email'] == email]
-        print(contact)
-        if len(contact) != 0:
+        contact = self.storage.contact_exist(email, 1)
+        if contact:
             return True
         return jsonify({'status': 200,
-                        'error': 'The email your sending to is not in your contacts'})
+                        'error': 'The email your sending to \
+                                  is not in your contacts'})
 
-    def remove_contact(self, the_id):
+    def remove_contact(self, the_id, user_id):
         """deletes a contact"""
-        for contact in Contacts.all_contacts:
-            if contact['id'] == the_id:
-                del Contacts.all_contacts[0]
-                return jsonify({'status': 200, 'error': 'Contact removed'})
+        delete = self.storage.delete_from_table('contacts', 'contact', the_id, user_id)
+        if delete:
+            return jsonify({'status': 200, 'error': 'Contact removed'})
         return jsonify({'status': 200, 'error': 'Contact doesn\'t exist'})

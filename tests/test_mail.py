@@ -51,19 +51,7 @@ class TestMailFilled(BaseTest):
                                  content_type='application/json')
         print(response1.data)
         self.assertTrue(response1.status_code,  400)
-        self.assertEqual(response1.get_json()['data']['subject'], 'd')
-    
-    def test_send_email_2(self):
-        """Tests whether th recievers email is null"""
-        self.app.post('/api/v1/contact',
-                      data=json.dumps(contact),
-                      content_type='application/json')
-        response1 = self.app.post('api/v1/messages',
-                                 data=json.dumps(email_bad_contact),
-                                 content_type='application/json')
-        print(response1.data)
-        self.assertTrue(response1.status_code,  400)
-        self.assertEqual(response1.get_json()['error'], 'An email is Invalid')
+        self.assertEqual(response1.get_json()['message'], 'Message has been created')
     
     def test_send_email_3(self):
         """Tests when the contact doesnt exist"""
