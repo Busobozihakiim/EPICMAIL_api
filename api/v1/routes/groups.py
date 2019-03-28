@@ -20,3 +20,9 @@ def groups():
 def delete_group(group_id):
     """removes a group"""
     return user_grps.remove_group(group_id)
+
+@apiv1.route('/groups/<group_id>/users', methods=['POST'])
+@jwt_required
+def add_user(group_id):
+    """saves a user to a group"""
+    return user_grps.new_grp_user(group_id)

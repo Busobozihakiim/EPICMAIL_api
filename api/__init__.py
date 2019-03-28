@@ -13,9 +13,6 @@ def create_app(config_name):
     app.config.from_object(configuration[config_name])
     app.register_blueprint(apiv1, url_prefix="/api/v1")
     app.config['JWT_SECRET_KEY'] = os.environ['SECRET-KEY']
-    #db = Database(app.config['DATABASE_URL'])
-    #print(app.config['DATABASE_URL'])
-    #db.create_table()
     jwt = JWTManager(app)
     Swagger(app)
     return app
