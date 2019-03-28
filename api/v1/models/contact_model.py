@@ -21,7 +21,6 @@ class Contacts():
         if validation.validate_names(args['firstname'], args['lastname']) is not True:
             return validation.validate_names(args['firstname'], args['lastname'])
         uid = get_jwt_identity()
-        print(uid)
         self.storage.save_contact(args['firstname'], args['lastname'],
                                   args['email'], uid)
         return jsonify({'status': 201,
