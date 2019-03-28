@@ -1,8 +1,6 @@
 import os
 from urllib import parse
-import psycopg2 
-from psycopg2.extras import RealDictCursor
-
+import psycopg2
 
 class Database:
     """Contains methods to create a db connection and create some tables"""
@@ -10,9 +8,12 @@ class Database:
     def __init__(self):
         """Creates a connection to the database"""
         try:
+            #print('in db config')
+            #print(select_db)
             url = parse.urlparse(os.environ['DATABASE_URL'])
             db_url = "dbname={} user={} password={} host={} ".format(url.path[1:], url.username, url.password, url.hostname)
             self.conn = psycopg2.connect(db_url)
+            #print(self.conn)
             self.cur = self.conn.cursor()
             self.conn.autocommit = True
         except (Exception, psycopg2.DatabaseError) as error:
@@ -57,6 +58,14 @@ class Database:
             self.cur.execute(sql)
         print("Table created")
 
+    def drop_all(self):
+        drop_contacts_table = "DROP TABLE contacts cascade"
+        drop_mesages_table = "DROP TABLE messages cascade"
+        drop_users_table = "DROP TABLE users cascade"
+        self.cur.execute(drop_contacts_table)
+        self.cur.execute(drop_messages_table)
+        self.cur.execute(drop_users_table)
+
     def save_user(self, firstname, lastname, email, password):
         """Adds a user to a database"""
         query = (''' INSERT INTO users (email, firstName, lastName, password) VALUES ('{}','{}','{}','{}')
@@ -64,23 +73,23 @@ class Database:
         self.cur.execute(query)
         return True
     
-    def save_contact(self, firstname, lastname, email, lid):
+    def save_contact(self, firstname, lastname, email, uid):
         """Adds a contact to a database"""
         query = ('''INSERT INTO contacts (firstName, lastname, email, user_id) VALUES( '{}','{}','{}','{}')
-                 '''.format(firstname, lastname, email, lid))
+                 '''.format(firstname, lastname, email, uid))
         self.cur.execute(query)
         return True
 
-    def save_message(self, subject, message, receiver, sender):
+    def save_message(self, subject, message, receiver, sender, uid):
         """Adds a message to a database"""
         query = ('''INSERT INTO messages (subject, message, receiver_id, sender_id, user_id) VALUES('{}','{}','{}','{}','{}')
-                 '''.format(subject, message, receiver, sender, 1))
+                 '''.format(subject, message, receiver, sender, uid))
         self.cur.execute(query)
         return True
 
-    def get_all_from_table(self, table):
-        """retreive all records of a given table"""
-        query = ('''SELECT * FROM {} '''.format(table))
+    def get_all_from_table(self, table, uid):
+        """retreive all records of a given table of a given user"""
+        query = ('''SELECT * FROM {} where user_id = '{}' '''.format(table, uid))
         self.cur.execute(query)
         records = self.cur.fetchall()
         return records
@@ -113,6 +122,8 @@ class Database:
         query = "SELECT PASSWORD FROM users WHERE email='{}'".format(email)
         self.cur.execute(query)
         user = self.cur.fetchone()
+        if user is None :
+            return 'False'
         return user[0]
 
     def check_email(self, email):
@@ -128,3 +139,14 @@ class Database:
         self.cur.execute(query)
         records = self.cur.fetchall()
         return records
+    
+
+
+    def userid(self, email):
+        """Return the userid of a given email"""
+        query = "SELECT user_id FROM users WHERE email='{}'".format(email)
+        self.cur.execute(query)
+        user = self.cur.fetchone()
+        if user is None:
+            return 'user[0]'
+        return user[0]

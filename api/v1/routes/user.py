@@ -1,6 +1,7 @@
 """Endpoints Related to Authentication"""
 from flask import jsonify, request
 from flasgger.utils import swag_from
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from api.v1 import apiv1
 from api.v1.helpers.user_helpers import UserHelpers
 from api.v1.models.contact_model import Contacts
@@ -37,6 +38,7 @@ def login_user():
 @apiv1.route('/contact', methods=['POST', 'GET'])
 @swag_from('../docs/contact.yml', methods=['POST'])
 @swag_from('../docs/get_contact.yml', methods=['GET'])
+@jwt_required
 def contact():
     """Creates or views a contact"""
     if request.method == 'POST':
@@ -47,6 +49,7 @@ def contact():
 
 @apiv1.route('/contact/<int:contactid>', methods=['DELETE'])
 @swag_from('../docs/delete_contact.yml', methods=['DELETE'])
+@jwt_required
 def delete_contact(contactid):
     """Remove a contact"""
-    return contacts.remove_contact(contactid, 1)
+    return contacts.remove_contact(contactid)

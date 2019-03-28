@@ -2,12 +2,15 @@
 from flask import jsonify
 from api.v1.validators.input_validator import Validate
 from api.v1.models.user_model import Users
-
+from api.v1.models.database import Database
+from flask_jwt_extended import create_access_token
+import datetime
 validation = Validate()
 signup = Users()
 
 
 class UserHelpers:
+    user = Database()
 
     def make_user(self, signup_data):
         """Checks if data is valid gives a user an access token"""
@@ -32,9 +35,13 @@ class UserHelpers:
                 }), 400
 
         signup.create_user(signup_data)
+        expires = datetime.timedelta(hours=2)
+        uid=self.user.userid(signup_data['email'])
+        access_token = create_access_token(identity=uid, expires_delta=expires)
+        
         return jsonify({
             'status': 201,
-            'data': 'account created'
+            'data': [{'token': access_token}]
             }), 201
 
     def login_user(self, login_data):
@@ -44,11 +51,12 @@ class UserHelpers:
                 'status': 400,
                 'error': 'Your missing an email or password'
                 }), 400
-        print('login data')
-        print(login_data['email'], login_data['password'])
         access_account = signup.check_matching_password(
             login_data['email'], login_data['password'])
 
+        uid=self.user.userid(login_data['email'])
+        expires = datetime.timedelta(hours=2)
+        access_token = create_access_token(identity=uid, expires_delta=expires)
         if not access_account:
             return jsonify({
                 'status': 400,
@@ -56,5 +64,5 @@ class UserHelpers:
                 }), 400
         return jsonify({
             'status': 200,
-            'message': 'logged in succesfully'
+            'data': [{'token': access_token}]
         }), 200

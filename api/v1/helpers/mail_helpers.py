@@ -1,5 +1,6 @@
 """Return messages after interacting with validators and DataStructures"""
 from flask import jsonify
+from flask_jwt_extended import get_jwt_identity
 from api.v1.validators.input_validator import Validate
 from api.v1.models.mail_model import Messages
 from api.v1.models.contact_model import Contacts
@@ -16,12 +17,13 @@ class MessageHelpers:
     """
     def get_messages(self):
         """Returns all messages"""
-        if message.check_storage():
+        uid = get_jwt_identity()
+        if message.check_storage(uid):
             return jsonify({
                 'status': 200,
                 'message': 'You dont have messages currently'
             }), 200
-        read_all = message.fetch_all_mail()
+        read_all = message.fetch_all_mail(uid)
         return jsonify({
             'status': 200,
             'data': read_all
@@ -34,8 +36,9 @@ class MessageHelpers:
 
         if contact.check_contact(email_input['to']) is not True:
             return contact.check_contact(email_input['to'])
-
-        message.create_email(email_input)
+        
+        uid = get_jwt_identity()
+        message.create_email(uid, email_input)
         return jsonify({
             'status': 201,
             'message': 'Message has been created'
@@ -43,7 +46,8 @@ class MessageHelpers:
 
     def get_message(self, status):
         """Returns sent or unread messages"""
-        retrieve = message.fetch_mail(status)
+        uid = get_jwt_identity()
+        retrieve = message.fetch_mail(status, uid)
         if retrieve is False:
             return jsonify({
                 'status': 200,
@@ -56,12 +60,14 @@ class MessageHelpers:
 
     def get_or_delete_email(self, mail_id, method):
         """deletes or returns an email"""
-        if method == 'delete'and message.delete_email(mail_id, 1):
+        uid = get_jwt_identity()
+
+        if method == 'delete'and message.delete_email(mail_id, uid):
             return jsonify({'status': 200,
                             'message': 'Email has been deleted'})
 
-        if method == 'get' and message.fetch_one_mail(mail_id, 1):
+        if method == 'get' and message.fetch_one_mail(uid, mail_id):
             return jsonify({'status': 200,
-                            'data': message.fetch_one_mail(mail_id, 1)})
+                            'data': message.fetch_one_mail(uid, mail_id)})
 
         return jsonify({'status': 200, 'error': 'this message doesn\'t exist'})
