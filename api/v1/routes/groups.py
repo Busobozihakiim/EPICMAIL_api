@@ -14,3 +14,9 @@ def groups():
         data = request.get_json()
         return user_grps.make_group(data)
     return user_grps.get_groups()
+
+@apiv1.route('/groups/<group_id>', methods=['DELETE'])
+@jwt_required
+def delete_group(group_id):
+    """removes a group"""
+    return user_grps.remove_group(group_id)

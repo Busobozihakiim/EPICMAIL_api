@@ -38,3 +38,11 @@ class GroupHelpers:
         uid = get_jwt_identity()
         newgrp = storage.save_group(name['name'], uid)
         return jsonify({'status': 201, 'data': [newgrp]})
+    
+    def remove_group(self, Gid):
+        """deletes a group"""
+        uid = get_jwt_identity()
+        delete = storage.delete_from_table('groups', 'group', Gid, uid)
+        if delete:
+            return jsonify({'status': 200,
+                            'message': 'Group has been deleted'})
