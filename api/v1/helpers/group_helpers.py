@@ -54,3 +54,10 @@ class GroupHelpers:
         if saved_user:
             return jsonify({'status': 201, 'data': [saved_user]})
         return jsonify({'status': 200, 'error': 'Group doesn\'t exist'})
+
+    def delete_user(self, Gid, uid):
+        """Removes a group member"""
+        delete = storage.delete_user(Gid, uid)
+        if delete:
+            return jsonify({'status': 200,
+                            'message': 'user removed from group'})
