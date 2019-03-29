@@ -17,7 +17,7 @@ class GroupHelpers:
         """Returns all groups"""
         uid = get_jwt_identity()
         all_groups = storage.get_all_from_table('groups', uid)
-        colnames = ['created_on', 'group_id', 'group_name', 'role', 'user_id']
+        colnames = ['group_id', 'group_name', 'role', 'created_on', 'user_id']
         groups = []
         for value in all_groups:
             groups.append(dict(zip(colnames, value)))
@@ -46,3 +46,11 @@ class GroupHelpers:
         if delete:
             return jsonify({'status': 200,
                             'message': 'Group has been deleted'})
+    
+    def new_grp_user(self, Gid):
+        """Saves a user """
+        saved_user = storage.grp_user(Gid)
+        print(saved_user)
+        if saved_user:
+            return jsonify({'status': 201, 'data': [saved_user]})
+        return jsonify({'status': 200, 'error': 'Group doesn\'t exist'})

@@ -8,13 +8,9 @@ class Database:
     def __init__(self):
         """Creates a connection to the database"""
         try:
-            print('in db config')
-            print(os.environ['DATABASE_URL'])
             url = parse.urlparse(os.environ['DATABASE_URL'])
             db_url = "dbname={} user={} password={} host={} ".format(url.path[1:], url.username, url.password, url.hostname)
             self.conn = psycopg2.connect(db_url)
-            print(self.conn)
-            print('connected to db')
             self.cur = self.conn.cursor()
             self.conn.autocommit = True
             self.create_table()
@@ -68,10 +64,8 @@ class Database:
             CREATE TABLE IF NOT EXISTS groupmembers(
             member_id serial primary key,
             group_id INT REFERENCES groups(group_id),
-            members INT REFERENCES users(user_id),
             created_on timestamp default current_timestamp,
-            user_id INT NOT NULL,
-            FOREIGN KEY(user_id) REFERENCES Users(user_id) ON DELETE CASCADE ON UPDATE CASCADE            
+            role VARCHAR(100) DEFAULT 'member' NOT NULL
             )"""
         )
         for sql in queries:
@@ -115,6 +109,18 @@ class Database:
         group = self.cur.fetchall()
         for value in group:
             return dict(zip(colnames, value))
+    
+    def grp_user(self, Gid):
+        """Adds a user to a group"""
+        query = ('''INSERT INTO groupmembers (group_id) VALUES('{}') RETURNING *'''.format(Gid))
+        try:
+            self.cur.execute(query)
+            colnames = [column[0] for column in self.cur.description]
+            group = self.cur.fetchall()
+            for value in group:
+                return dict(zip(colnames, value))
+        except psycopg2.IntegrityError:
+            return False
 
     def get_all_from_table(self, table, uid):
         """retreive all records of a given table of a given user"""
