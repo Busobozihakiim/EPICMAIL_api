@@ -3,7 +3,7 @@ from datetime import datetime
 from api.v1.models.database import Database
 
 
-class Messages():
+class Messages:
     """Maps to the Messages entity"""
     storage = Database()
 

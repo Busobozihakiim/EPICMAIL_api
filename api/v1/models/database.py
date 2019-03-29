@@ -8,14 +8,16 @@ class Database:
     def __init__(self):
         """Creates a connection to the database"""
         try:
-            #print('in db config')
-            #print(select_db)
+            print('in db config')
+            print(os.environ['DATABASE_URL'])
             url = parse.urlparse(os.environ['DATABASE_URL'])
             db_url = "dbname={} user={} password={} host={} ".format(url.path[1:], url.username, url.password, url.hostname)
             self.conn = psycopg2.connect(db_url)
-            #print(self.conn)
+            print(self.conn)
+            print('connected to db')
             self.cur = self.conn.cursor()
             self.conn.autocommit = True
+            self.create_table()
         except (Exception, psycopg2.DatabaseError) as error:
             print("Error connecting to the database", error)
 
@@ -52,11 +54,29 @@ class Database:
             user_id INT NOT NULL,
             FOREIGN KEY(user_id) REFERENCES Users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
             )
-            '''
+            ''',
+            """
+            CREATE TABLE IF NOT EXISTS Groups(
+            group_id serial PRIMARY KEY NOT NULL,
+            group_name VARCHAR(50) NOT NULL,
+            role VARCHAR(100) DEFAULT 'Admin' NOT NULL,
+            created_on timestamp default current_timestamp,
+            user_id INT NOT NULL,
+            FOREIGN KEY(user_id) REFERENCES Users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+            )""",
+            """
+            CREATE TABLE IF NOT EXISTS groupmembers(
+            member_id serial primary key,
+            group_id INT REFERENCES groups(group_id),
+            members INT REFERENCES users(user_id),
+            created_on timestamp default current_timestamp,
+            user_id INT NOT NULL,
+            FOREIGN KEY(user_id) REFERENCES Users(user_id) ON DELETE CASCADE ON UPDATE CASCADE            
+            )"""
         )
         for sql in queries:
             self.cur.execute(sql)
-        print("Table created")
+        print("Tables created")
 
     def drop_all(self):
         drop_contacts_table = "DROP TABLE contacts cascade"
@@ -86,6 +106,15 @@ class Database:
                  '''.format(subject, message, receiver, sender, uid))
         self.cur.execute(query)
         return True
+
+    def save_group(self, name, uid):
+        """Adds a group to storage"""
+        query = ('''INSERT INTO groups (group_name, user_id) VALUES('{}','{}') RETURNING *'''.format(name, uid))
+        self.cur.execute(query)
+        colnames = [column[0] for column in self.cur.description]
+        group = self.cur.fetchall()
+        for value in group:
+            return dict(zip(colnames, value))
 
     def get_all_from_table(self, table, uid):
         """retreive all records of a given table of a given user"""
@@ -140,8 +169,6 @@ class Database:
         records = self.cur.fetchall()
         return records
     
-
-
     def userid(self, email):
         """Return the userid of a given email"""
         query = "SELECT user_id FROM users WHERE email='{}'".format(email)

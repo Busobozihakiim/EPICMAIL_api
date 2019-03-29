@@ -19,11 +19,3 @@ def create_app(config_name):
     jwt = JWTManager(app)
     Swagger(app)
     return app
-
-def login_user(self, email):
-        """Return the password hash of a give email"""
-        query = "SELECT PASSWORD FROM users WHERE email='{}'".format(email)
-        print(query)
-        self.cur.execute(query)
-        user = self.cur.fetchone()
-        return user[0]
