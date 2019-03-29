@@ -26,3 +26,9 @@ def delete_group(group_id):
 def add_user(group_id):
     """saves a user to a group"""
     return user_grps.new_grp_user(group_id)
+
+@apiv1.route('/groups/<int:group_id>/users/<int:uid>', methods=['DELETE'])
+@jwt_required
+def delete_user(group_id, uid):
+    """removes a user"""
+    return user_grps.delete_user(group_id, uid)

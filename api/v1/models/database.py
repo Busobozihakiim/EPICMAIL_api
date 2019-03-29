@@ -183,3 +183,9 @@ class Database:
         if user is None:
             return 'user[0]'
         return user[0]
+    
+    def delete_user(self, Gid, uid):
+        """removes group meber from a table using the group id and memeber id"""
+        query = ('''DELETE FROM groupmembers where group_id = '{}' AND member_id = '{}' '''.format(Gid, uid))
+        self.cur.execute(query)
+        return True
