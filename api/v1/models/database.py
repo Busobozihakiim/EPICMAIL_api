@@ -189,3 +189,20 @@ class Database:
         query = ('''DELETE FROM groupmembers where group_id = '{}' AND member_id = '{}' '''.format(Gid, uid))
         self.cur.execute(query)
         return True
+
+    def update(self, name, Gid, uid):
+        """Change the name of a group"""
+        exits = ('''SELECT exists (SELECT 1 FROM groups
+                    WHERE group_id = '{}' and user_id = '{}' LIMIT 1)'''.format(Gid, uid))
+        self.cur.execute(exits)
+        does_it = self.cur.fetchone()
+        if True in does_it:
+            query = ('''UPDATE groups  SET group_name = '{}'
+                        WHERE group_id = '{}' and user_id = '{}' 
+                        RETURNING group_name, group_id, role'''.format(name, Gid, uid))
+            self.cur.execute(query)
+            colnames = [column[0] for column in self.cur.description]
+            name = self.cur.fetchall()
+            for value in name:
+                return dict(zip(colnames, value))
+        return False
