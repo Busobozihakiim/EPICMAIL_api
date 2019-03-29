@@ -61,3 +61,13 @@ class GroupHelpers:
         if delete:
             return jsonify({'status': 200,
                             'message': 'user removed from group'})
+
+    def change_name(self, Gid, name):
+        """Update the name of the group"""
+        uid = get_jwt_identity()
+        update = storage.update(name['name'], Gid, uid)
+        if not update:
+            return jsonify({'status': 200,
+                            'error': 'Can\'t change name of unavialable group'})
+        return jsonify({'status': 200,
+                        'data': update})
