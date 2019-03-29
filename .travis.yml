@@ -6,6 +6,10 @@ branches:
   - develop
 install:
   - pip install -r requirements.txt
+services:
+- postgresql
+before_script:
+- psql -c 'create database Epicmail_test;' -U postgres
 script:
   - coverage run --omit */home/travis/virtualenv/* -m pytest
   - coverage report
