@@ -1,7 +1,7 @@
 """USER ENTITY """
 from werkzeug.security import generate_password_hash, check_password_hash
-from api.v1.models.database import Database
-from api.v1 import apiv1
+from api.v2.models.database import Database
+from api.v2 import apiv2
 
 
 class Users():

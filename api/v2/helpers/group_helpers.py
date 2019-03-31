@@ -1,7 +1,7 @@
 """Creates, returns and deletes groups and its members"""
 from flask import jsonify
-from api.v1.validators.input_validator import Validate
-from api.v1.models.database import Database
+from api.v2.validators.input_validator import Validate
+from api.v2.models.database import Database
 from flask_jwt_extended import get_jwt_identity
 
 validation = Validate()
@@ -37,15 +37,18 @@ class GroupHelpers:
         """Creates a new group"""
         uid = get_jwt_identity()
         newgrp = storage.save_group(name['name'], uid)
-        return jsonify({'status': 201, 'data': [newgrp]})
+        return jsonify({'status': 201, 'data': newgrp}), 201
     
     def remove_group(self, Gid):
         """deletes a group"""
         uid = get_jwt_identity()
-        delete = storage.delete_from_table('groups', 'group', Gid, uid)
-        if delete:
+        exists = storage.group_exists(Gid, uid)
+        delete = storage.delete_group(Gid, uid)
+        if exists:
             return jsonify({'status': 200,
-                            'message': 'Group has been deleted'})
+                            'error': 'Group has been deleted'})
+        return jsonify({'status': 200,
+                        'message': 'Group Doesnt exist'})
     
     def new_grp_user(self, Gid):
         """Saves a user """
@@ -61,6 +64,9 @@ class GroupHelpers:
         if delete:
             return jsonify({'status': 200,
                             'message': 'user removed from group'})
+        return jsonify({'status': 200,
+                            'error': 'group or user doesnt exist'})
+        
 
     def change_name(self, Gid, name):
         """Update the name of the group"""

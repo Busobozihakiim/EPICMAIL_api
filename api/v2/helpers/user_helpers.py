@@ -1,8 +1,8 @@
 """Creates User And Returns token"""
 from flask import jsonify
-from api.v1.validators.input_validator import Validate
-from api.v1.models.user_model import Users
-from api.v1.models.database import Database
+from api.v2.validators.input_validator import Validate
+from api.v2.models.user_model import Users
+from api.v2.models.database import Database
 from flask_jwt_extended import create_access_token
 import datetime
 validation = Validate()
@@ -40,6 +40,7 @@ class UserHelpers:
         access_token = create_access_token(identity=uid, expires_delta=expires)
         
         return jsonify({
+            'message' : 'Signed up successfully',
             'status': 201,
             'data': [{'token': access_token}]
             }), 201
@@ -63,6 +64,7 @@ class UserHelpers:
                 'error': 'Incorrect credentials'
                 }), 400
         return jsonify({
+            'message' : 'logged in successfully',
             'status': 200,
             'data': [{'token': access_token}]
         }), 200

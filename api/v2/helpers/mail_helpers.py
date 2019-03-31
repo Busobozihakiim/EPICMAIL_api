@@ -1,13 +1,11 @@
 """Return messages after interacting with validators and DataStructures"""
 from flask import jsonify
 from flask_jwt_extended import get_jwt_identity
-from api.v1.validators.input_validator import Validate
-from api.v1.models.mail_model import Messages
-from api.v1.models.contact_model import Contacts
+from api.v2.validators.input_validator import Validate
+from api.v2.models.mail_model import Messages
 
 validation = Validate()
 message = Messages()
-contact = Contacts()
 
 
 class MessageHelpers:
@@ -18,7 +16,7 @@ class MessageHelpers:
     def get_messages(self):
         """Returns all messages"""
         uid = get_jwt_identity()
-        if message.check_storage(uid):
+        if not message.fetch_all_mail(uid):
             return jsonify({
                 'status': 200,
                 'message': 'You dont have messages currently'
@@ -33,12 +31,16 @@ class MessageHelpers:
         """Sends a message"""
         if validation.validate_length(email_input) is not False:
             return validation.validate_length(email_input)
-
-        if contact.check_contact(email_input['to']) is not True:
-            return contact.check_contact(email_input['to'])
         
+        receiver = message.check_contact(email_input['to'])
+
+        if not receiver:
+            return jsonify({'status': 400, 'error':'receiver doesnt exist'}), 400
+
+        print(receiver)
+            
         uid = get_jwt_identity()
-        message.create_email(uid, email_input)
+        message.create_email(uid, receiver, email_input)
         return jsonify({
             'status': 201,
             'message': 'Message has been created'

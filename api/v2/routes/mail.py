@@ -2,13 +2,13 @@
 from flask import request
 from flasgger.utils import swag_from
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from api.v1 import apiv1
-from api.v1.helpers.mail_helpers import MessageHelpers
+from api.v2 import apiv2
+from api.v2.helpers.mail_helpers import MessageHelpers
 
 messages = MessageHelpers()
 
 
-@apiv1.route('/messages', methods=['GET', 'POST'])
+@apiv2.route('/messages', methods=['GET', 'POST'])
 @swag_from('../docs/send_messages.yml', methods=['POST'])
 @swag_from('../docs/get_messages.yml', methods=['GET'])
 @jwt_required
@@ -20,7 +20,7 @@ def get_or_send_emails():
     return messages.send_message(data)
 
 
-@apiv1.route('/messages/<string:status>', methods=['GET'])
+@apiv2.route('/messages/<string:status>', methods=['GET'])
 @swag_from('../docs/view_message_by_status.yml', methods=['GET'])
 @jwt_required
 def view_sent_or_unread_emails(status):
@@ -28,7 +28,7 @@ def view_sent_or_unread_emails(status):
     return messages.get_message(status)
 
 
-@apiv1.route('/messages/<int:mail_id>', methods=['GET', 'DELETE'])
+@apiv2.route('/messages/<int:mail_id>', methods=['GET', 'DELETE'])
 @swag_from('../docs/get_email_by_id.yml', methods=['GET'])
 @swag_from('../docs/delete_email_by_id.yml', methods=['DELETE'])
 @jwt_required

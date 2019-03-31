@@ -34,10 +34,10 @@ class Validate:
 
     def validate_length(self, user_input):
         """Check for input from user"""
-        if 4 > len(user_input) < 4:
+        if 3 > len(user_input) < 3:
             return jsonify({
                 'status': 400,
-                'error': 'Must enter four fields'
+                'error': 'Must enter three fields'
                 }), 400
     
         for key, value in user_input.items():

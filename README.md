@@ -13,6 +13,10 @@ A web app that helps people exchange messages/information over the internet.
 - `Get a specific user’s email.` User should be able to fetch and view a single message
 - `Send email to individuals .` User should be able to send a message
 - `Delete an email in a user’s inbox.` A user should be able to delete a message by its id
+- `Create and own a group.` Users should be able to create groups
+- `Delete a group they own.` A user should be able to delete a group
+- `Add users to a group they own.` A user should be able to add users to her group
+- `Delete a user(s) from a group.` A group owner should  be able to delete users from her group
 
 ## Installing
 First clone this repository
@@ -53,7 +57,7 @@ pytest
 Use the api endpoints with an app like [Postman](https://www.getpostman.com/apps) 
 
 ## Hosted on Heroku
-The online api can be found [here](https://epicmail007.herokuapp.com/api/v1/)
+The online api can be found [here](https://epicmail007.herokuapp.com/api/v2/)
 
 And documentation is [here](https://epicmail007.herokuapp.com/apidocs/)
 
@@ -79,20 +83,31 @@ Acceptable post format When:
 ```
 {
     'to' : string,
-    'from' : string,
     'subject' : String ,
     'message' : String ,
 }
 ```
+- Creating a group
+```
+{    
+    'name' : String ,
+}
+```
 
 ## Available API Endpoints
-|  EndPoint  |  Functionality  |
-| ------------- | ------------- |
-| POST /auth/signup | Create a user account. |
-| POST /auth/login | Login a user. |
-| POST /messages | Create or send an email. |
-| GET /messages | Fetch all received emails. |
-| GET /messages/unread | Fetch all unread received emails. |
-| GET /messages/sent | Fetch all sent emails. |
-| GET /messages/\<message-id> | Fetch a specific email record. |
-| DELETE /messages/<message-id> | Delete a specific email record. |
+|  HTTP METHOD | EndPoint  |  Functionality  |
+| ------------- | ------------- | ------------- |
+| POST | /auth/signup | Create a user account. |
+| POST | /auth/login | Login a user. |
+| POST | /messages | Create or send an email. |
+| GET | /messages | Fetch all received emails. |
+| GET | /messages/unread | Fetch all unread received emails. |
+| GET | /messages/sent | Fetch all sent emails. |
+| GET | /messages/\<message-id> | Fetch a specific email record. |
+| DELETE | /messages/\<message-id> | Delete a specific email record. |
+| POST | /groups | Create a group |
+| GET | /groups| Return all of the users groups |
+| DELETE | /groups/\<group-id>| Owner deletes a group |
+| POST | /groups/\<group-id>/users| Add users to a group |
+| DELETE | /groups/\<int:group-id>/users/\<int:uid>| Delete a group user |
+| PATCH | /groups/\<group-id>/name| Change the name of the group |
