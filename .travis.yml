@@ -10,9 +10,12 @@ services:
 - postgresql
 before_script:
 - psql -c 'create database Epicmail_test;' -U postgres
-- psql -c 'create USER tester WITH PASSWORD 'test';'' -U postgres
-- psql -c 'GRANT ALL PRIVILEGES ON DATABASE "Epicmail_test" to tester; -U postgres
+- psql -c 'create USER tester WITH LOGIN PASSWORD 'test';'
+- psql -c 'GRANT ALL PRIVILEGES ON DATABASE "Epicmail_test" to tester;'
+- psql \du
 script:
   - coverage run --omit */home/travis/virtualenv/* -m pytest
   - coverage report
   - coveralls
+
+
