@@ -10,7 +10,7 @@ services:
 - postgresql
 before_script:
 - psql -c 'create database Epicmail_test;' -U postgres
-- psql -c "create user postgres WITH PASSWORD 'test';" -U postgres
+- psql -c "create USER tester WITH PASSWORD 'test';" -U postgres
 script:
   - coverage run --omit */home/travis/virtualenv/* -m pytest
   - coverage report
