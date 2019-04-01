@@ -65,11 +65,13 @@ class Database:
 
     def drop_all(self):
         drop_groups_table = "DROP TABLE groups cascade"
-        drop_mesages_table = "DROP TABLE messages cascade"
+        drop_groupmembers_table = "DROP TABLE groupmembers cascade"
+        drop_messages_table = "DROP TABLE messages cascade"
         drop_users_table = "DROP TABLE users cascade"
-        self.cur.execute(drop_groups_table)
-        self.cur.execute(drop_messages_table)
         self.cur.execute(drop_users_table)
+        self.cur.execute(drop_groupmembers_table)
+        self.cur.execute(drop_groups_table)
+        self.cur.execute(drop_messages_table)        
 
     def save_user(self, firstname, lastname, email, password):
         """Adds a user to a database"""

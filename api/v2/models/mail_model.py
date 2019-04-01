@@ -43,7 +43,11 @@ class Messages:
 
     def delete_email(self, Id, uid):
         """Removes mail from storage"""
+        print(self.storage.get_from_table(Id))
+        if self.storage.get_from_table(Id) == []:
+            return False
         return self.storage.delete_message(Id)
+        
     
     def names2values(self, all_mail):
         colnames = ['message_id', 'created_on', 'subject', 'message', 'sender_id', 'receiver_id', 'sender_status', 'receiver_status']

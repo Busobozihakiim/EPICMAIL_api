@@ -5,6 +5,7 @@ from api.v2.models.user_model import Users
 from api.v2.models.database import Database
 from flask_jwt_extended import create_access_token
 import datetime
+
 validation = Validate()
 signup = Users()
 
@@ -14,8 +15,9 @@ class UserHelpers:
 
     def make_user(self, signup_data):
         """Checks if data is valid gives a user an access token"""
-        if validation.validate_length(signup_data) is not False:
-            return validation.validate_length(signup_data)
+        if len(signup_data) < 4:
+            return jsonify({'status':400,
+                            'error':'Must enter four fields'}), 400
 
         if validation.validate_email(signup_data['email']) is not True:
             return validation.validate_email(signup_data['email'])

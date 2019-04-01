@@ -6,6 +6,18 @@ signup_data = {
     "lastName": "String",
     "password": "ferdertf"
     }
+signup_data2 = {
+    "email": "a@epictester.com",
+    "firstName": "String",
+    "lastName": "String",
+    "password": "ferdertf"
+    }
+receiver = {
+    "email": "b@epictester.com",
+    "firstName": "String",
+    "lastName": "String",
+    "password": "ferdertf"
+    }
 missing_required_data = {
     "email": "testing@ngalabi.com",
     "lastName": "String",
@@ -43,8 +55,7 @@ bad_creds = {
 email = {
     "subject" : "d",
 	"message" : "String" ,
-	"from" : "Me@epctester.com" ,
-	"to" : "John@epictester.com"
+	"to" : "b@epictester.com"
 }
 message_urself = {
     "subject" : "d",
@@ -55,12 +66,10 @@ message_urself = {
 email_invalid = {
     "subject" : "d",
 	"message" : "String" ,
-	"from" : "qwepictester.com" ,
-	"to" : "qw@epictester.com"
+	"to" : "ss@epictester.com"
 }
 email_less = {
 	"message" : "String" ,
-	"from" : "qw@epctester.com" ,
 	"to" : "qw@epictester.com"
 }
 empty_input = {
@@ -69,32 +78,11 @@ empty_input = {
 	"from" : "qw@epctester.com" ,
 	"to" : "qw@epictester.com"
 }
-contact = {
-    "firstname" : "John",
-	"lastname" : "Smith" ,
-	"email" : "John@epictester.com"    
-}
-contact_bad_email = {
-    "firstname" : "John",
-	"lastname" : "Smith" ,
-	"email" : "Johntester.com"    
-}
-contact_bad_name = {
-    "firstname" : "5",
-	"lastname" : "Smith" ,
-	"email" : "John@epictester.com"    
-}
 email_to_delete = {
     "subject" : "d",
 	"message" : "String" ,
 	"from" : "Me@epctester.com" ,
 	"to" : "John@epictester.com"
-}
-email_bad_contact = {
-    "subject" : "d",
-	"message" : "String" ,
-	"from" : "Me@epctester.com" ,
-	"to" : "Johnepictester.com"
 }
 email_none = {
     "subject" : "d",
