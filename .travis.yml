@@ -7,13 +7,13 @@ branches:
 install:
   - pip install -r requirements.txt
 services:
-- postgresql
+  - postgresql
 before_script:
-- psql -c "create database Epicmail_test;" -U postgres
-- psql -c "create USER tester WITH PASSWORD 'test';" -U postgres
+  - psql -c "create database Epicmail_test;" -U postgres
+  - psql -c "create USER tester WITH PASSWORD 'test';" -U postgres
 script:
   - coverage run --omit */home/travis/virtualenv/* -m pytest
   - coverage report
   - coveralls
-
-
+after_failure:
+  - psql -U postgres  -l
