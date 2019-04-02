@@ -70,3 +70,17 @@ class UserHelpers:
             'status': 200,
             'data': [{'token': access_token}]
         }), 200
+
+    def reset_link(self, reset_data):
+        if signup.check_email_exists(reset_data['email']):
+            return jsonify({
+                'status': 200,
+                'data': [{
+                    'message' : 'Check your email for password reset link',
+                    'email': reset_data['email']
+                    }]
+            })
+        return jsonify({
+                'status': 400,
+                'message' : 'Invalid email'
+                }), 400

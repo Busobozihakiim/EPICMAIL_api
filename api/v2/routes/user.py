@@ -31,3 +31,9 @@ def login_user():
     """logs in a user"""
     data = request.get_json()
     return user_helper.login_user(data)
+
+@apiv2.route('/auth/reset', endpoint='reset', methods=['POST'])
+def login_user():
+    """resets a password"""
+    data = request.get_json()
+    return user_helper.reset_link(data)
