@@ -33,9 +33,16 @@ def delete_user(group_id, uid):
     """removes a user"""
     return user_grps.delete_user(group_id, uid)
 
-@apiv2.route('/groups/<group_id>/name', methods=['PATCH'])
+@apiv2.route('/groups/<int:group_id>/name', methods=['PATCH'])
 @jwt_required
 def edit_name(group_id):
     """updates the name of the group"""
     data = request.get_json()
     return user_grps.change_name(group_id, data)
+
+@apiv2.route('/groups/<int:group_id>/messages', methods=['POST'])
+@jwt_required
+def send_grp_message(group_id):
+    """Sends a message to the group"""
+    data = request.get_json()
+    return user_grps.send_group_messages(group_id, data)

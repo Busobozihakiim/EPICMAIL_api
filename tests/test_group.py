@@ -1,5 +1,6 @@
 import json
 from .test_base import BaseTest
+from .mock_data import group_message
 
 class TestGroups(BaseTest):
 
@@ -109,4 +110,29 @@ class TestGroups(BaseTest):
                                  headers={'Authorization': 'Bearer ' + self.token})
         self.assertTrue(response.status_code, 200)
         self.assertIn(response.get_json()['error'], 'Can\'t change name of unavialable group')
+    
+    def test_send_group_message(self):
+        """Test to send a group message"""
+        self.app.post('api/v2/groups', content_type='application/json',
+                      data=json.dumps({"name": "Almighty"}),
+                      headers={'Authorization': 'Bearer ' + self.token})
+        response = self.app.post('api/v2/groups/1/messages', content_type='application/json',
+                      data=json.dumps(group_message),
+                      headers={'Authorization': 'Bearer ' + self.token})
+        print(response.data)
+        self.assertTrue(response.status_code, 201)
+        self.assertIn(response.get_json()['message'], 'Message delivered')
+        self.assertIn(response.get_json()['data'][0]['status'], 'sent')
+    
+    def test_send_group_message_to_null_group(self):
+        """Test to send a group message"""
+        self.app.post('api/v2/groups', content_type='application/json',
+                      data=json.dumps({"name": "Almighty"}),
+                      headers={'Authorization': 'Bearer ' + self.token})
+        response = self.app.post('api/v2/groups/5/messages', content_type='application/json',
+                      data=json.dumps(group_message),
+                      headers={'Authorization': 'Bearer ' + self.token})
+        print(response.data)
+        self.assertTrue(response.status_code, 400)
+        self.assertIn(response.get_json()['error'], 'Group doesnt exist')
         
