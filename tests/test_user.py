@@ -82,4 +82,28 @@ class TestUserRoutes(BaseTest):
                                  content_type='application/json')
         self.assertIn(response.get_json()["error"], "Incorrect credentials")
         self.assertEqual(response.status_code, 400)
+    
+    def test_reset_link(self):
+        """test sending a reset link"""
+        self.app.post('/api/v2/auth/signup',
+                                 data=json.dumps(signup_data),
+                                 content_type='application/json')
+        response = self.app.post('/api/v2/auth/reset',
+                      data=json.dumps({"email":"qw@epictester.com"}),
+                      content_type='application/json')
+        print(response.data)
+        self.assertIn(response.get_json()["data"][0]["message"], "Check your email for password reset link")
+        self.assertEqual(response.status_code, 200)
+    
+    def test_reset_link_2(self):
+        """test sending a reset link when the email doesnt exist"""
+        response = self.app.post('/api/v2/auth/signup',
+                                 data=json.dumps(signup_data),
+                                 content_type='application/json')
+        response = self.app.post('/api/v2/auth/reset',
+                                 data=json.dumps({"email":"we@epictester.com"}),
+                                 content_type='application/json')
+        print(response.data)
+        self.assertIn(response.get_json()["message"], "Invalid email")
+        self.assertEqual(response.status_code, 400)
         
