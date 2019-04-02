@@ -31,7 +31,6 @@ class GroupHelpers:
             'status': 200,
             'data': groups
         })
-        dict
 
     def make_group(self, name):
         """Creates a new group"""
@@ -46,14 +45,13 @@ class GroupHelpers:
         delete = storage.delete_group(Gid, uid)
         if exists:
             return jsonify({'status': 200,
-                            'error': 'Group has been deleted'})
+                            'message': 'Group has been deleted'})
         return jsonify({'status': 200,
-                        'message': 'Group Doesnt exist'})
+                        'error': 'Group Doesnt exist'})
     
     def new_grp_user(self, Gid):
         """Saves a user """
         saved_user = storage.grp_user(Gid)
-        print(saved_user)
         if saved_user:
             return jsonify({'status': 201, 'data': [saved_user]})
         return jsonify({'status': 200, 'error': 'Group doesn\'t exist'})
@@ -75,5 +73,6 @@ class GroupHelpers:
         if not update:
             return jsonify({'status': 200,
                             'error': 'Can\'t change name of unavialable group'})
-        return jsonify({'status': 200,
+        return jsonify({'message':'Group name updated',
+                        'status': 200,
                         'data': update})

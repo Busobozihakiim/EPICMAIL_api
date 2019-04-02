@@ -14,11 +14,6 @@ class Messages:
         print(one_email)
         return one_email
 
-    def check_storage(self, uid):
-        """Are messages available"""
-        if self.storage.get_all_from_table('messages', uid):
-            return False
-        return True
 
     def check_contact(self, email):
         """Does the contact exist"""
