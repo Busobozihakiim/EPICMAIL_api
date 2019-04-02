@@ -57,7 +57,18 @@ class Database:
             group_id INT REFERENCES groups(group_id),
             created_on timestamp default current_timestamp,
             role VARCHAR(100) DEFAULT 'member' NOT NULL
-            )"""
+            )""",
+            '''
+            CREATE TABLE IF NOT EXISTS group_messages(
+            message_id serial PRIMARY KEY NOT NULL,
+            created_on timestamp default current_timestamp,
+            subject VARCHAR(100) NOT NULL,
+            message VARCHAR(500) NOT NULL,
+            sender_id INT REFERENCES Users(user_id) NOT NULL,
+            group_id INT REFERENCES groups(group_id) NOT NULL,
+            parentMessageId serial,
+            status VARCHAR(10) DEFAULT 'sent'
+            )'''
         )
         for sql in queries:
             self.cur.execute(sql)
@@ -241,3 +252,12 @@ class Database:
         query = ('''DELETE FROM messages where message_id = '{}' '''.format(Id))
         self.cur.execute(query)
         return True
+
+    def group_message(self, subject, message, group_id, uid):
+        """Adds a message to a database"""
+        query = ('''INSERT INTO group_messages (subject, message, group_id, sender_id)
+                 VALUES('{}','{}','{}','{}')
+                 RETURNING message_id, created_on, subject, message, parentMessageId, status
+                 '''.format(subject, message, group_id, uid))
+        self.cur.execute(query)
+        return self.cur.fetchall()

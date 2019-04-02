@@ -90,3 +90,7 @@ email_none = {
 	"from" : "Me@epctester.com" ,
 	"to" : "Joh@epictester.com"
 }
+group_message = {
+    "subject" : "d",
+	"message" : "String"
+}

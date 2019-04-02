@@ -76,3 +76,19 @@ class GroupHelpers:
         return jsonify({'message':'Group name updated',
                         'status': 200,
                         'data': update})
+    
+    def send_group_messages(self, group_id, data):
+        uid = get_jwt_identity()
+        exists = storage.group_exists(group_id, uid)
+        if exists:
+            send = storage.group_message(data['subject'], data['message'], group_id, uid)
+            colnames = ['message_id', 'created_on', 'subject', 'message', 'parentMessageId', 'status']
+            grp_msg = []
+            for value in send:
+                grp_msg.append(dict(zip(colnames, value)))
+            
+            return jsonify({'status': 201,
+                            'data': grp_msg,
+                            'message': 'Message delivered'})
+        return jsonify({'error':'Group doesnt exist',
+                        'status': 400})
